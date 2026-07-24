@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QQ聊天框</title>
+    <!-- 引入CSS样式文件 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 聊天框主容器 -->
+    <div class="chat-container">
+        <!-- 顶部导航栏 -->
+        <div class="chat-header">
+            <!-- 返回按钮 -->
+            <button class="header-btn back-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <!-- 聊天对象信息 -->
+            <div class="chat-info">
+                <h2 class="chat-title">张三</h2>
+                <span class="chat-status">在线</span>
+            </div>
+            <!-- 更多选项按钮 -->
+            <button class="header-btn more-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 中间消息展示区域（滚动容器） -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- 消息将通过JavaScript动态加载 -->
+            <div class="loading-indicator">加载中...</div>
+        </div>
+
+        <!-- 底部输入区域 -->
+        <div class="chat-input-area">
+            <!-- 表情按钮 -->
+            <button class="input-btn emoji-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+            </button>
+            <!-- 文本输入框 -->
+            <input type="text" id="messageInput" class="message-input" placeholder="输入消息...">
+            <!-- 语音按钮 -->
+            <button class="input-btn voice-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 14c1.66 0 2.99-1.34 2.99-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+                </svg>
+            </button>
+            <!-- 发送按钮 -->
+            <button id="sendBtn" class="send-btn">发送</button>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件（ES模块） -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
