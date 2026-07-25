@@ -3,62 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QQ聊天框</title>
-    <!-- 引入CSS样式文件 -->
+    <title>智能助手 - 聊天</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- 背景装饰 -->
+    <div class="background-decoration">
+        <div class="decorative-blob"></div>
+        <div class="decorative-blob"></div>
+        <div class="decorative-blob"></div>
+    </div>
+    
+    <!-- Toast提示 -->
+    <div class="toast" id="toast"></div>
+    
+    <!-- 滚动到顶部按钮 -->
+    <button class="scroll-top-btn" id="scrollTopBtn">🔝</button>
+    
     <!-- 聊天框主容器 -->
     <div class="chat-container">
         <!-- 顶部导航栏 -->
         <div class="chat-header">
-            <!-- 返回按钮 -->
-            <button class="header-btn back-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-            </button>
-            <!-- 聊天对象信息 -->
-            <div class="chat-info">
-                <h2 class="chat-title">张三</h2>
-                <span class="chat-status">在线</span>
+            <div class="chat-partner">
+                <div class="avatar-container">🤖</div>
+                <div>
+                    <div class="chat-title">智能助手</div>
+                    <div class="online-status">
+                        <span class="online-dot"></span>
+                        <span>在线</span>
+                    </div>
+                </div>
             </div>
-            <!-- 更多选项按钮 -->
-            <button class="header-btn more-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
-                </svg>
-            </button>
+            <div class="header-actions">
+                <button class="header-btn" id="themeToggle" title="切换主题">🌙</button>
+                <button class="header-btn" title="设置">⚙️</button>
+                <button class="header-btn" title="语音">🎙️</button>
+            </div>
         </div>
-
-        <!-- 中间消息展示区域（滚动容器） -->
-        <div class="chat-messages" id="chatMessages">
-            <!-- 消息将通过JavaScript动态加载 -->
-            <div class="loading-indicator">加载中...</div>
+        
+        <!-- 搜索框 -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="搜索消息... (Ctrl+/)" autocomplete="off">
+            <span class="search-icon">🔍</span>
         </div>
-
-        <!-- 底部输入区域 -->
+        
+        <!-- 消息展示区域 -->
+        <div class="chat-messages" id="chat-messages">
+            <div class="messages-list" id="messages-list">
+                <!-- 消息将动态插入这里 -->
+            </div>
+            <!-- 打字状态指示器 -->
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="typing-text">正在输入...</span>
+            </div>
+        </div>
+        
+        <!-- 输入区域 -->
         <div class="chat-input-area">
-            <!-- 表情按钮 -->
-            <button class="input-btn emoji-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-            </button>
-            <!-- 文本输入框 -->
-            <input type="text" id="messageInput" class="message-input" placeholder="输入消息...">
-            <!-- 语音按钮 -->
-            <button class="input-btn voice-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 14c1.66 0 2.99-1.34 2.99-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
-                </svg>
-            </button>
-            <!-- 发送按钮 -->
-            <button id="sendBtn" class="send-btn">发送</button>
+            <div class="input-container">
+                <button class="input-btn emoji-btn" id="emojiBtn" title="表情">😊</button>
+                <input 
+                    type="text" 
+                    id="user-input" 
+                    placeholder="输入消息..." 
+                    autocomplete="off"
+                >
+                <button class="send-btn" id="send-btn">➤</button>
+            </div>
+            <!-- 快捷回复 -->
+            <div class="quick-replies" id="quickReplies"></div>
         </div>
     </div>
+    
+    <!-- 表情选择器 -->
+    <div class="emoji-picker" id="emojiPicker"></div>
+    </div>
 
-    <!-- 引入JavaScript文件（ES模块） -->
-    <script type="module" src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

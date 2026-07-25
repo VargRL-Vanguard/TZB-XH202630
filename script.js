@@ -1,526 +1,479 @@
-/**
- * 聊天消息管理模块
- * 
- * 前端预留的API接口说明：
- * - 当前模块已预留完整的后端API调用接口
- * - 后端开发人员需要实现以下接口：
- *   1. GET /api/chat/history - 获取聊天历史
- *   2. POST /api/chat/send - 发送消息
- *   3. GET /api/user/info - 获取用户信息
- *   4. GET /api/chat/list - 获取聊天列表
- *   5. POST /api/chat/read - 标记消息已读
- * 
- * - 详细接口文档请查看 api/chat.js 文件
- * - API基础配置请修改 api/config.js 文件
- * 
- * 注：当前使用Mock数据作为fallback，后端接口就绪后可启用真实API
- */
+// 消息数据管理
+const messages = [];
+let messageIdCounter = 0;
 
-// 静态导入API模块
-import { getChatHistory, sendMessage as apiSendMessage, getUserInfo } from './api/chat.js';
-import { getWebSocketInstance } from './api/websocket.js';
-
-// 模块配置
-const CONFIG = {
-    // 是否启用真实API（后端接口就绪后改为true）
-    useRealAPI: false,
-    // 当前用户ID（后端对接时从登录态获取）
-    currentUserId: 'user_001',
-    // 聊天对象ID
-    targetUserId: 'user_002',
-    // 聊天对象名称
-    targetUserName: '张三'
+// 表情数据
+const emojis = {
+    smileys: ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗'],
+    hearts: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💕', '💞', '💓', '💗', '💖', '💘', '💝'],
+    animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔'],
+    food: ['🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🍒', '🥝', '🍅', '🍆', '🥑', '🥦', '🍕', '🍔', '🍟', '🍩']
 };
 
-/**
- * Mock数据模拟（用于前端开发和测试）
- * 后端接口就绪后可删除或保留作为fallback
- */
-const MOCK_DATA = {
-    // 模拟聊天历史
-    history: [
-        {
-            id: 'msg_001',
-            content: '你好！',
-            senderId: 'user_002',
-            receiverId: 'user_001',
-            isSent: false,
-            timestamp: Date.now() - 3600000,
-            avatar: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjOUI5QjlCIi8+PHBhdGggZD0iTTIwIDEwYzUuNSAwIDEwIDQuNSAxMCAxMHMtNC41IDEwLTEwIDEwLTEwLTQuNS0xMC0xMCA0LjUtMTAgMTAtMTBtMCAxNmMtMy4zIDAtNi0yLjctNi02IDAtMy4zIDIuNy02IDYtNiA2IDAgMy4zIDIuNyA2IDYgNi0zLjMgNi02IDYtNiIvPjwvc3ZnPg=='
-        },
-        {
-            id: 'msg_002',
-            content: '你好，有什么事吗？',
-            senderId: 'user_001',
-            receiverId: 'user_002',
-            isSent: true,
-            timestamp: Date.now() - 3500000
-        },
-        {
-            id: 'msg_003',
-            content: '周末有空吗？想约你一起吃饭',
-            senderId: 'user_002',
-            receiverId: 'user_001',
-            isSent: false,
-            timestamp: Date.now() - 3400000,
-            avatar: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjOUI5QjlCIi8+PHBhdGggZD0iTTIwIDEwYzUuNSAwIDEwIDQuNSAxMCAxMHMtNC41IDEwLTEwIDEwLTEwLTQuNS0xMC0xMCA0LjUtMTAgMTAtMTBtMCAxNmMtMy4zIDAtNi0yLjctNi02IDAtMy4zIDIuNy02IDYtNiA2IDAgMy4zIDIuNyA2IDYgNi0zLjMgNi02IDYtNiIvPjwvc3ZnPg=='
-        }
-    ],
-    // 模拟对方回复
-    replies: [
-        '好的，收到！',
-        '嗯嗯，我知道了',
-        '没问题',
-        '等一下，我看看',
-        '好的，那我们周末见',
-        '谢谢你的消息',
-        '明白了，我会处理的',
-        '可以啊，什么时候？',
-        '好的，我记下了',
-        '收到，稍后回复你'
-    ],
-    // 模拟用户信息
-    userInfo: {
-        id: 'user_002',
-        name: '张三',
-        avatar: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjOUI5QjlCIi8+PHBhdGggZD0iTTIwIDEwYzUuNSAwIDEwIDQuNSAxMCAxMHMtNC41IDEwLTEwIDEwLTEwLTQuNS0xMC0xMCA0LjUtMTAgMTAtMTBtMCAxNmMtMy4zIDAtNi0yLjctNi02IDAtMy4zIDIuNy02IDYtNiA2IDAgMy4zIDIuNyA2IDYgNi0zLjMgNi02IDYtNiIvPjwvc3ZnPg==',
-        status: 'online'
-    }
-};
+// 快捷回复数据
+const quickReplies = [
+    '你好呀！',
+    '今天天气真好',
+    '有什么可以帮你的？',
+    '这个想法很棒！',
+    '我明白了',
+    '好的，谢谢！'
+];
 
-/**
- * 获取当前时间格式化字符串
- * @returns {string} HH:mm 格式的时间字符串
- */
-function getCurrentTime(timestamp = Date.now()) {
-    const date = new Date(timestamp);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
+// DOM元素
+const chatMessages = document.getElementById('chat-messages');
+const messagesList = document.getElementById('messages-list');
+const messageInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+const emojiBtn = document.getElementById('emojiBtn');
+const emojiPicker = document.getElementById('emojiPicker');
+const toast = document.getElementById('toast');
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+const quickRepliesContainer = document.getElementById('quickReplies');
+const searchInput = document.getElementById('searchInput');
+const themeToggle = document.getElementById('themeToggle');
+const typingIndicator = document.getElementById('typingIndicator');
+
+// 收藏的消息
+const favoriteMessages = JSON.parse(localStorage.getItem('favoriteMessages') || '[]');
+
+// 当前主题
+let currentTheme = localStorage.getItem('chatTheme') || 'light';
+
+// 连击计数器
+let comboCounter = 0;
+let comboTimer = null;
+
+// 显示Toast提示
+function showToast(text) {
+    toast.textContent = text;
+    toast.classList.add('active');
+    setTimeout(() => {
+        toast.classList.remove('active');
+    }, 2000);
 }
 
-/**
- * 创建消息元素
- * @param {object} message - 消息数据对象
- * @param {string} message.content - 消息内容
- * @param {boolean} message.isSent - 是否为我方发送
- * @param {string} message.avatar - 头像URL（可选）
- * @param {number} message.timestamp - 时间戳（可选）
- * @returns {HTMLElement} 消息元素
- */
-function createMessageElement(message) {
-    const { content, isSent, avatar, timestamp } = message;
-    
-    // 创建消息容器div
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${isSent ? 'message-sent' : 'message-received'}`;
-
-    if (!isSent && avatar) {
-        // 对方消息，添加头像
-        const avatarImg = document.createElement('img');
-        avatarImg.className = 'avatar';
-        avatarImg.src = avatar;
-        avatarImg.alt = '头像';
-        messageDiv.appendChild(avatarImg);
-    }
-
-    // 创建消息气泡div
-    const bubbleDiv = document.createElement('div');
-    bubbleDiv.className = 'message-bubble';
-
-    // 创建消息内容p标签
-    const contentP = document.createElement('p');
-    contentP.className = 'message-content';
-    contentP.textContent = content;
-    bubbleDiv.appendChild(contentP);
-
-    // 创建消息时间span标签
-    const timeSpan = document.createElement('span');
-    timeSpan.className = 'message-time';
-    timeSpan.textContent = getCurrentTime(timestamp);
-    bubbleDiv.appendChild(timeSpan);
-
-    // 将气泡添加到消息容器
-    messageDiv.appendChild(bubbleDiv);
-
-    return messageDiv;
-}
-
-/**
- * 渲染消息列表
- * @param {Array} messages - 消息数组
- */
-function renderMessages(messages) {
-    const chatMessages = document.getElementById('chatMessages');
-    
-    // 清空现有消息
-    chatMessages.innerHTML = '';
-    
-    // 依次渲染每条消息
-    messages.forEach(message => {
-        const messageElement = createMessageElement(message);
-        chatMessages.appendChild(messageElement);
-    });
-    
-    // 滚动到底部
-    scrollToBottom();
-}
-
-/**
- * 追加单条消息
- * @param {object} message - 消息对象
- */
-function appendMessage(message) {
-    const chatMessages = document.getElementById('chatMessages');
-    const messageElement = createMessageElement(message);
-    chatMessages.appendChild(messageElement);
-    scrollToBottom();
-}
-
-/**
- * 自动滚动到底部（最新消息位置）
- */
+// 滚动到底部
 function scrollToBottom() {
-    const chatMessages = document.getElementById('chatMessages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-/**
- * Mock发送消息（前端模拟）
- * @param {string} content - 消息内容
- * @returns {Promise<object>} 发送结果
- */
-function mockSendMessage(content) {
-    return new Promise((resolve) => {
-        // 创建发送消息
-        const sentMessage = {
-            id: `msg_${Date.now()}`,
-            content: content,
-            senderId: CONFIG.currentUserId,
-            receiverId: CONFIG.targetUserId,
-            isSent: true,
-            timestamp: Date.now()
+// 渲染表情选择器
+function renderEmojiPicker() {
+    let html = '';
+    Object.keys(emojis).forEach(category => {
+        html += '<div class="emoji-category">';
+        emojis[category].forEach(emoji => {
+            html += `<span class="emoji-item" onclick="insertEmoji('${emoji}')">${emoji}</span>`;
+        });
+        html += '</div>';
+    });
+    emojiPicker.innerHTML = html;
+}
+
+// 插入表情
+function insertEmoji(emoji) {
+    messageInput.value += emoji;
+    emojiPicker.classList.remove('active');
+    messageInput.focus();
+}
+
+// 渲染快捷回复
+function renderQuickReplies() {
+    let html = '';
+    quickReplies.forEach(text => {
+        html += `<span class="quick-reply" onclick="sendQuickReply('${text}')">${text}</span>`;
+    });
+    quickRepliesContainer.innerHTML = html;
+}
+
+// 发送快捷回复
+function sendQuickReply(text) {
+    sendMessage(text);
+}
+
+// 创建消息元素
+function createMessageElement(message) {
+    const messageElement = document.createElement('div');
+    messageElement.className = `message ${message.isUser ? 'user-message' : 'bot-message'}`;
+    messageElement.dataset.messageId = message.id;
+    
+    const isFavorite = favoriteMessages.includes(message.id);
+        messageElement.innerHTML = `
+        <div class="message-menu">
+            <button onclick="replyMessage(${message.id})" title="回复">↩️</button>
+            <button onclick="forwardMessage(${message.id})" title="转发">➡️</button>
+            <button onclick="copyMessage(${message.id})" title="复制">📋</button>
+            <button onclick="toggleFavorite(${message.id})" title="${isFavorite ? '取消收藏' : '收藏'}">${isFavorite ? '❤️' : '🤍'}</button>
+            <button onclick="deleteMessage(${message.id})" title="删除">🗑️</button>
+        </div>
+        <div class="message-wrapper">
+            <div class="message-content">${message.content}</div>
+            <div class="message-time">${message.time}</div>
+            <div class="message-status">
+                ${message.isUser ? (message.isRead ? '✓✓' : '✓') : ''}
+            </div>
+        </div>
+    `;
+    
+    // 添加双击放大效果
+    messageElement.addEventListener('dblclick', () => {
+        messageElement.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            messageElement.style.transform = 'scale(1)';
+        }, 300);
+    });
+    
+    // 鼠标悬停显示菜单
+    messageElement.addEventListener('mouseenter', () => {
+        const menu = messageElement.querySelector('.message-menu');
+        if (menu) {
+            menu.style.opacity = '1';
+            menu.style.visibility = 'visible';
+            menu.style.transform = 'translateY(0)';
+        }
+    });
+    
+    messageElement.addEventListener('mouseleave', () => {
+        const menu = messageElement.querySelector('.message-menu');
+        if (menu) {
+            menu.style.opacity = '0';
+            menu.style.visibility = 'hidden';
+            menu.style.transform = 'translateY(-10px)';
+        }
+    });
+    
+    // 移动端长按操作
+    let longPressTimer = null;
+    messageElement.addEventListener('touchstart', () => {
+        longPressTimer = setTimeout(() => {
+            const menu = messageElement.querySelector('.message-menu');
+            if (menu) {
+                menu.style.opacity = '1';
+                menu.style.visibility = 'visible';
+                menu.style.transform = 'translateY(0)';
+            }
+        }, 500);
+    });
+    
+    messageElement.addEventListener('touchend', () => {
+        if (longPressTimer) {
+            clearTimeout(longPressTimer);
+        }
+    });
+    
+    return messageElement;
+}
+
+// 删除消息
+function deleteMessage(messageId) {
+    const index = messages.findIndex(m => m.id === messageId);
+    if (index > -1) {
+        messages.splice(index, 1);
+        renderMessages();
+        showToast('消息已删除');
+    }
+}
+
+// 渲染消息列表
+function renderMessages() {
+    messagesList.innerHTML = '';
+    messages.forEach(message => {
+        messagesList.appendChild(createMessageElement(message));
+    });
+    scrollToBottom();
+}
+
+// 添加单条消息
+function appendMessage(message) {
+    messages.push(message);
+    messagesList.appendChild(createMessageElement(message));
+    scrollToBottom();
+}
+
+// 获取格式化时间
+function getFormattedTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+// Mock回复数据
+const mockReplies = [
+    '好的，我明白了！',
+    '这个想法很棒！',
+    '让我想想...',
+    '没问题，我来帮你！',
+    '谢谢你的分享！',
+    '哈哈，有意思！',
+    '是的，我也这么觉得',
+    '太棒了！继续加油！',
+    '我会记住的！',
+    '有什么我可以帮你的吗？'
+];
+
+// 获取随机回复
+function getRandomReply() {
+    return mockReplies[Math.floor(Math.random() * mockReplies.length)];
+}
+
+// 发送消息
+function sendMessage(content = null) {
+    const text = content || messageInput.value.trim();
+    if (!text) return;
+    
+    // 连击检测
+    comboCounter++;
+    clearTimeout(comboTimer);
+    comboTimer = setTimeout(() => {
+        comboCounter = 0;
+    }, 3000);
+    
+    // 显示连击提示
+    if (comboCounter >= 3) {
+        showCombo(comboCounter);
+    }
+    
+    // 创建用户消息
+    const userMessage = {
+        id: messageIdCounter++,
+        content: text,
+        time: getFormattedTime(),
+        isUser: true
+    };
+    
+    appendMessage(userMessage);
+    messageInput.value = '';
+    
+    // 发送特效
+    createSendEffect();
+    
+    // 显示打字状态
+    showTypingIndicator();
+    
+    // Mock回复
+    setTimeout(() => {
+        hideTypingIndicator();
+        const botMessage = {
+            id: messageIdCounter++,
+            content: getRandomReply(),
+            time: getFormattedTime(),
+            isUser: false
         };
-
-        // 延迟模拟网络请求
-        setTimeout(() => {
-            resolve({
-                success: true,
-                data: sentMessage,
-                message: 'success'
-            });
-        }, 300);
-    });
+        appendMessage(botMessage);
+        // 更新已发送消息的状态为已读
+        userMessage.isRead = true;
+        renderMessages();
+    }, 1000 + Math.random() * 1000);
 }
 
-/**
- * Mock获取回复（模拟对方回复）
- * @returns {Promise<object>} 回复消息
- */
-function mockGetReply() {
-    return new Promise((resolve) => {
-        // 随机选择回复内容
-        const randomReply = MOCK_DATA.replies[Math.floor(Math.random() * MOCK_DATA.replies.length)];
-        
-        // 模拟延迟（1-2秒）
-        const delay = 1000 + Math.random() * 1000;
-        
-        setTimeout(() => {
-            const replyMessage = {
-                id: `msg_${Date.now()}`,
-                content: randomReply,
-                senderId: CONFIG.targetUserId,
-                receiverId: CONFIG.currentUserId,
-                isSent: false,
-                timestamp: Date.now(),
-                avatar: MOCK_DATA.userInfo.avatar
-            };
-            
-            resolve({
-                success: true,
-                data: replyMessage,
-                message: 'success'
-            });
-        }, delay);
-    });
+// 创建发送特效
+function createSendEffect() {
+    const effect = document.createElement('div');
+    effect.className = 'send-effect';
+    sendBtn.appendChild(effect);
+    setTimeout(() => {
+        effect.remove();
+    }, 600);
 }
 
-/**
- * Mock获取聊天历史
- * @returns {Promise<object>} 历史消息
- */
-function mockGetHistory() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({
-                success: true,
-                data: {
-                    messages: MOCK_DATA.history,
-                    total: MOCK_DATA.history.length,
-                    page: 1,
-                    pageSize: 20
-                },
-                message: 'success'
-            });
-        }, 300);
-    });
+// 显示连击提示
+function showCombo(count) {
+    comboText.textContent = '连击！';
+    comboCount.textContent = `x${count}`;
+    comboNotification.classList.add('active');
+    setTimeout(() => {
+        comboNotification.classList.remove('active');
+    }, 800);
 }
 
-/**
- * Mock获取用户信息
- * @returns {Promise<object>} 用户信息
- */
-function mockGetUserInfo() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({
-                success: true,
-                data: MOCK_DATA.userInfo,
-                message: 'success'
-            });
-        }, 200);
-    });
+// 显示打字状态
+function showTypingIndicator() {
+    typingIndicator.style.display = 'flex';
 }
 
-/**
- * 发送消息函数（主入口）
- */
-async function sendMessage() {
-    const messageInput = document.getElementById('messageInput');
-    const content = messageInput.value.trim();
+// 隐藏打字状态
+function hideTypingIndicator() {
+    typingIndicator.style.display = 'none';
+}
 
-    // 如果内容为空，不发送
-    if (!content) {
+// 搜索消息
+function searchMessages(query) {
+    if (!query.trim()) {
+        renderMessages();
         return;
     }
+    
+    const filtered = messages.filter(m => 
+        m.content.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    messagesList.innerHTML = '';
+    filtered.forEach(message => {
+        const element = createMessageElement(message);
+        // 高亮搜索关键词
+        const contentEl = element.querySelector('.message-content');
+        contentEl.innerHTML = message.content.replace(
+            new RegExp(query, 'gi'),
+            '<span class="highlight">$&</span>'
+        );
+        messagesList.appendChild(element);
+    });
+}
 
-    try {
-        // 发送消息
-        let result;
-        
-        if (CONFIG.useRealAPI) {
-            // 使用真实API（后端接口就绪后启用）
-            result = await apiSendMessage({
-                userId: CONFIG.currentUserId,
-                targetId: CONFIG.targetUserId,
-                content: content
-            });
-        } else {
-            // 使用Mock数据
-            result = await mockSendMessage(content);
-        }
+// 切换主题
+function toggleTheme() {
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('chatTheme', currentTheme);
+    document.body.classList.toggle('dark-theme', currentTheme === 'dark');
+    themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+    showToast(currentTheme === 'dark' ? '已切换到深色模式' : '已切换到浅色模式');
+}
 
-        if (result.success && result.data) {
-            // 添加我方消息到界面
-            appendMessage(result.data);
-            
-            // 清空输入框
-            messageInput.value = '';
+// 收藏消息
+function toggleFavorite(messageId) {
+    const index = favoriteMessages.indexOf(messageId);
+    if (index > -1) {
+        favoriteMessages.splice(index, 1);
+        showToast('已取消收藏');
+    } else {
+        favoriteMessages.push(messageId);
+        showToast('已收藏');
+    }
+    localStorage.setItem('favoriteMessages', JSON.stringify(favoriteMessages));
+}
 
-            // 如果使用Mock，模拟对方回复
-            if (!CONFIG.useRealAPI) {
-                const replyResult = await mockGetReply();
-                if (replyResult.success && replyResult.data) {
-                    appendMessage(replyResult.data);
-                }
-            }
-        }
-    } catch (error) {
-        console.error('发送消息失败:', error);
-        // 失败时使用Mock作为fallback
-        if (!CONFIG.useRealAPI) {
-            const fallbackMessage = {
-                id: `msg_${Date.now()}`,
-                content: content,
-                senderId: CONFIG.currentUserId,
-                receiverId: CONFIG.targetUserId,
-                isSent: true,
-                timestamp: Date.now()
-            };
-            appendMessage(fallbackMessage);
-            messageInput.value = '';
-            
-            // 模拟对方回复
-            const replyResult = await mockGetReply();
-            if (replyResult.success && replyResult.data) {
-                appendMessage(replyResult.data);
-            }
-        }
+// 回复消息
+function replyMessage(messageId) {
+    const message = messages.find(m => m.id === messageId);
+    if (message) {
+        messageInput.value = `回复: ${message.content.substring(0, 20)}${message.content.length > 20 ? '...' : ''} `;
+        messageInput.focus();
+        emojiPicker.classList.remove('active');
     }
 }
 
-/**
- * 加载聊天历史
- */
-async function loadChatHistory() {
-    try {
-        let result;
-        
-        if (CONFIG.useRealAPI) {
-            // 使用真实API
-            result = await getChatHistory({
-                userId: CONFIG.currentUserId,
-                targetId: CONFIG.targetUserId,
-                page: 1,
-                pageSize: 20
-            });
-        } else {
-            // 使用Mock数据
-            result = await mockGetHistory();
-        }
-
-        if (result.success && result.data && result.data.messages) {
-            renderMessages(result.data.messages);
-        }
-    } catch (error) {
-        console.error('加载聊天历史失败:', error);
-        // 失败时使用Mock数据作为fallback
-        if (!CONFIG.useRealAPI) {
-            renderMessages(MOCK_DATA.history);
-        }
+// 转发消息
+function forwardMessage(messageId) {
+    const message = messages.find(m => m.id === messageId);
+    if (message) {
+        navigator.clipboard.writeText(message.content).then(() => {
+            showToast('内容已复制，可以转发啦！');
+        });
     }
 }
 
-/**
- * 更新用户信息显示
- */
-async function updateUserInfo() {
-    try {
-        let result;
-        
-        if (CONFIG.useRealAPI) {
-            // 使用真实API
-            result = await getUserInfo({
-                userId: CONFIG.targetUserId
-            });
-        } else {
-            // 使用Mock数据
-            result = await mockGetUserInfo();
-        }
-
-        if (result.success && result.data) {
-            const userInfo = result.data;
-            
-            // 更新聊天标题
-            const chatTitle = document.querySelector('.chat-title');
-            if (chatTitle) {
-                chatTitle.textContent = userInfo.name;
-            }
-            
-            // 更新在线状态
-            const chatStatus = document.querySelector('.chat-status');
-            if (chatStatus) {
-                chatStatus.textContent = userInfo.status === 'online' ? '在线' : '离线';
-            }
-        }
-    } catch (error) {
-        console.error('获取用户信息失败:', error);
+// 复制消息
+function copyMessage(messageId) {
+    const message = messages.find(m => m.id === messageId);
+    if (message) {
+        navigator.clipboard.writeText(message.content).then(() => {
+            showToast('已复制到剪贴板');
+        });
     }
 }
 
-/**
- * 处理回车键发送消息
- * @param {KeyboardEvent} e - 键盘事件
- */
-function handleKeyPress(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
+// 滚动到顶部
+function scrollToTop() {
+    chatMessages.scrollTop = 0;
+}
+
+// 监听滚动事件
+function handleScroll() {
+    if (chatMessages.scrollTop > 300) {
+        scrollTopBtn.classList.add('active');
+    } else {
+        scrollTopBtn.classList.remove('active');
     }
 }
 
-/**
- * 初始化事件监听
- */
+// 初始化事件监听
 function initEventListeners() {
-    const sendBtn = document.getElementById('sendBtn');
-    const messageInput = document.getElementById('messageInput');
+    // 发送按钮点击
+    sendBtn.addEventListener('click', () => sendMessage());
     
-    // 发送按钮点击事件
-    sendBtn.addEventListener('click', sendMessage);
+    // 回车键发送
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
     
-    // 输入框键盘事件
-    messageInput.addEventListener('keypress', handleKeyPress);
-}
-
-/**
- * 初始化WebSocket连接
- */
-function initWebSocket() {
-    // 如果启用真实API，初始化WebSocket
-    if (CONFIG.useRealAPI) {
-        const ws = getWebSocketInstance();
-        
-        // 设置消息回调
-        ws.on('onMessage', (message) => {
-            // 收到新消息，追加到界面
-            appendMessage(message);
-        });
-        
-        // 设置连接回调
-        ws.on('onConnect', () => {
-            console.log('WebSocket已连接');
-        });
-        
-        // 设置断开回调
-        ws.on('onDisconnect', () => {
-            console.log('WebSocket已断开');
-        });
-        
-        // 设置错误回调
-        ws.on('onError', (error) => {
-            console.error('WebSocket错误:', error);
-        });
-        
-        // 设置系统消息回调
-        ws.on('onSystem', (systemMessage) => {
-            console.log('系统消息:', systemMessage);
-            // 处理在线状态变更等系统消息
-            if (systemMessage.code === 'ONLINE_STATUS') {
-                const chatStatus = document.querySelector('.chat-status');
-                if (chatStatus && systemMessage.data.userId === CONFIG.targetUserId) {
-                    chatStatus.textContent = systemMessage.data.status === 'online' ? '在线' : '离线';
-                }
-            }
-        });
-        
-        // 连接WebSocket
-        ws.connect().catch(error => {
-            console.error('WebSocket连接失败:', error);
+    // 表情按钮点击
+    emojiBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        emojiPicker.classList.toggle('active');
+    });
+    
+    // 点击其他区域关闭表情选择器
+    document.addEventListener('click', (e) => {
+        if (!emojiBtn.contains(e.target) && !emojiPicker.contains(e.target)) {
+            emojiPicker.classList.remove('active');
+        }
+    });
+    
+    // 滚动事件
+    chatMessages.addEventListener('scroll', handleScroll);
+    
+    // 滚动到顶部按钮
+    scrollTopBtn.addEventListener('click', scrollToTop);
+    
+    // 搜索功能
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            searchMessages(e.target.value);
         });
     }
+    
+    // 主题切换
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+    
+    // 键盘快捷键
+    document.addEventListener('keydown', (e) => {
+        // Ctrl/Cmd + / 聚焦搜索框
+        if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+            e.preventDefault();
+            searchInput?.focus();
+        }
+        // Ctrl/Cmd + Enter 发送消息
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            sendMessage();
+        }
+        // ESC 关闭表情选择器
+        if (e.key === 'Escape') {
+            emojiPicker.classList.remove('active');
+        }
+    });
 }
 
-/**
- * 页面初始化函数
- */
-async function init() {
-    // 初始化事件监听
+// 初始化页面
+function init() {
+    renderEmojiPicker();
+    renderQuickReplies();
     initEventListeners();
     
-    // 加载聊天历史
-    await loadChatHistory();
-    
-    // 更新用户信息
-    await updateUserInfo();
-    
-    // 初始化WebSocket（仅在启用真实API时）
-    initWebSocket();
-    
-    // 页面加载完成后滚动到底部
-    setTimeout(scrollToBottom, 100);
+    // 添加欢迎消息
+    setTimeout(() => {
+        const welcomeMessage = {
+            id: messageIdCounter++,
+            content: '你好呀！很高兴认识你！😊',
+            time: getFormattedTime(),
+            isUser: false
+        };
+        appendMessage(welcomeMessage);
+    }, 500);
 }
 
-// 页面加载完成后执行初始化
+// 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', init);
 
-/**
- * 暴露给全局的API方法（供后端或调试使用）
- */
-window.ChatAPI = {
-    sendMessage,
-    loadChatHistory,
-    updateUserInfo,
-    getConfig: () => CONFIG,
-    setConfig: (newConfig) => Object.assign(CONFIG, newConfig)
-};
+// 暴露全局方法
+window.insertEmoji = insertEmoji;
+window.sendQuickReply = sendQuickReply;
+window.replyMessage = replyMessage;
+window.forwardMessage = forwardMessage;
+window.copyMessage = copyMessage;
