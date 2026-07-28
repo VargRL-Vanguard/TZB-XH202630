@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能助手 - 学情画像</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="background-decoration">
+        <div class="decorative-blob"></div>
+        <div class="decorative-blob"></div>
+        <div class="decorative-blob"></div>
+    </div>
+
+    <!-- Toast提示 -->
+    <div class="toast" id="toast"></div>
+
+    <!-- 主容器 -->
+    <div class="profile-container">
+        <!-- 顶部导航栏 -->
+        <div class="profile-header">
+            <div class="header-left">
+                <a href="index.html" class="back-btn" title="返回聊天">←</a>
+                <h1 class="page-title">学情画像构建</h1>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="refreshBtn" title="刷新数据">🔄</button>
+                <button class="header-btn" id="exportBtn" title="导出报告">📊</button>
+            </div>
+        </div>
+
+        <!-- 学生信息卡片 -->
+        <div class="student-info-card" id="studentInfoCard">
+            <div class="student-avatar" id="studentAvatar">👤</div>
+            <div class="student-basic">
+                <h2 class="student-name" id="studentName">加载中...</h2>
+                <p class="student-id" id="studentId">学号: --</p>
+                <div class="student-tags" id="studentTags">
+                    <!-- 标签将动态插入 -->
+                </div>
+            </div>
+            <div class="student-meta">
+                <div class="meta-item">
+                    <span class="meta-label">年级</span>
+                    <span class="meta-value" id="studentGrade">--</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">班级</span>
+                    <span class="meta-value" id="studentClass">--</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">入学时间</span>
+                    <span class="meta-value" id="studentEnrollDate">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心指标卡片组 -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">📚</div>
+                <div class="metric-info">
+                    <span class="metric-value" id="totalStudyHours">0</span>
+                    <span class="metric-label">学习时长(小时)</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">✅</div>
+                <div class="metric-info">
+                    <span class="metric-value" id="completionRate">0%</span>
+                    <span class="metric-label">任务完成率</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">🏆</div>
+                <div class="metric-info">
+                    <span class="metric-value" id="avgScore">0</span>
+                    <span class="metric-label">平均成绩</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">📈</div>
+                <div class="metric-info">
+                    <span class="metric-value" id="learningTrend">--</span>
+                    <span class="metric-label">学习趋势</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 能力维度雷达图区域 -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3 class="section-title">能力维度分析</h3>
+                <button class="section-action" id="refreshRadar">刷新</button>
+            </div>
+            <div class="radar-chart-container" id="radarChart">
+                <canvas id="radarCanvas" width="400" height="300"></canvas>
+                <!-- 如果后端未就绪，显示占位 -->
+                <div class="chart-placeholder" id="radarPlaceholder">
+                    <span class="placeholder-icon">📊</span>
+                    <p>能力维度数据加载中...</p>
+                </div>
+            </div>
+            <div class="dimension-list" id="dimensionList">
+                <!-- 维度列表将动态插入 -->
+            </div>
+        </div>
+
+        <!-- 学习行为分析 -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3 class="section-title">学习行为分析</h3>
+                <div class="time-filter" id="timeFilter">
+                    <button class="filter-btn active" data-period="week">本周</button>
+                    <button class="filter-btn" data-period="month">本月</button>
+                    <button class="filter-btn" data-period="semester">学期</button>
+                </div>
+            </div>
+            <div class="behavior-chart-container" id="behaviorChart">
+                <canvas id="behaviorCanvas" width="600" height="250"></canvas>
+                <div class="chart-placeholder" id="behaviorPlaceholder">
+                    <span class="placeholder-icon">📈</span>
+                    <p>行为数据加载中...</p>
+                </div>
+            </div>
+            <div class="behavior-stats" id="behaviorStats">
+                <!-- 行为统计将动态插入 -->
+            </div>
+        </div>
+
+        <!-- 知识掌握度 -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3 class="section-title">知识掌握度</h3>
+            </div>
+            <div class="knowledge-list" id="knowledgeList">
+                <!-- 知识点列表将动态插入 -->
+            </div>
+        </div>
+
+        <!-- 学习建议 -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3 class="section-title">个性化学习建议</h3>
+            </div>
+            <div class="suggestions-list" id="suggestionsList">
+                <!-- 建议列表将动态插入 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+</html>
