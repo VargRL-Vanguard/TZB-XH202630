@@ -477,3 +477,98 @@ window.sendQuickReply = sendQuickReply;
 window.replyMessage = replyMessage;
 window.forwardMessage = forwardMessage;
 window.copyMessage = copyMessage;
+
+// ==================== 语音输入功能 ====================
+// 获取语音输入按钮
+const voiceInputBtn = document.getElementById('voiceInputBtn');
+
+// 语音识别状态
+let isRecording = false;
+let recognition = null;
+
+// 检查浏览器是否支持语音识别
+function isSpeechRecognitionSupported() {
+    return 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+}
+
+// 初始化语音识别
+function initSpeechRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        showToast('您的浏览器不支持语音输入');
+        return null;
+    }
+
+    const rec = new SpeechRecognition();
+    rec.lang = 'zh-CN';          // 设置为中文
+    rec.continuous = false;      // 不连续识别，说完一句自动停止
+    rec.interimResults = true;   // 显示中间结果
+
+    // 识别开始
+    rec.onstart = function() {
+        isRecording = true;
+        voiceInputBtn.textContent = '⏹️';
+        voiceInputBtn.title = '点击停止录音';
+        showToast('正在聆听，请说话...');
+    };
+
+    // 识别结果
+    rec.onresult = function(event) {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+        }
+        // 将识别结果填入输入框
+        messageInput.value = transcript;
+        messageInput.focus();
+    };
+
+    // 识别结束
+    rec.onend = function() {
+        isRecording = false;
+        voiceInputBtn.textContent = '🎙️';
+        voiceInputBtn.title = '语音输入';
+    };
+
+    // 识别错误
+    rec.onerror = function(event) {
+        isRecording = false;
+        voiceInputBtn.textContent = '🎙️';
+        voiceInputBtn.title = '语音输入';
+        if (event.error === 'no-speech') {
+            showToast('没有检测到语音，请重试');
+        } else if (event.error === 'not-allowed') {
+            showToast('请允许麦克风权限');
+        } else {
+            showToast('语音识别出错: ' + event.error);
+        }
+    };
+
+    return rec;
+}
+
+// 语音输入按钮点击事件
+if (voiceInputBtn) {
+    voiceInputBtn.addEventListener('click', function() {
+        if (!isSpeechRecognitionSupported()) {
+            showToast('您的浏览器不支持语音输入，请使用Chrome浏览器');
+            return;
+        }
+
+        // 如果正在录音，停止录音
+        if (isRecording && recognition) {
+            recognition.stop();
+            return;
+        }
+
+        // 开始录音
+        recognition = initSpeechRecognition();
+        if (recognition) {
+            try {
+                recognition.start();
+            } catch (e) {
+                showToast('语音识别启动失败，请重试');
+            }
+        }
+    });
+}

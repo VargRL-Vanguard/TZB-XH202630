@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习活动记录</title>
+    <link rel="stylesheet" href="activity.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="history.back()">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <div class="header-title">
+                <h2>学习活动记录</h2>
+                <span class="subtitle">学习进度追踪 · 课程导航</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" title="返回聊天">
+                <a href="index.html" style="color:white;text-decoration:none;">💬</a>
+            </button>
+            <button class="header-btn" title="学情画像">
+                <a href="profile.html" style="color:white;text-decoration:none;">📊</a>
+            </button>
+            <button class="header-btn" title="学习路径">
+                <a href="learning-path.html" style="color:white;text-decoration:none;">🗺️</a>
+            </button>
+            <button class="header-btn" title="学习建议">
+                <a href="suggestions.html" style="color:white;text-decoration:none;">💡</a>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="main-content">
+        <!-- 学习统计概览 -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-info">
+                    <h3>总学习时长</h3>
+                    <p class="stat-value" id="totalHours">48.5h</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <h3>已完成课程</h3>
+                    <p class="stat-value" id="completedCourses">12/20</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-info">
+                    <h3>连续学习天数</h3>
+                    <p class="stat-value" id="streakDays">7天</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div class="stat-info">
+                    <h3>总体完成率</h3>
+                    <p class="stat-value" id="completionRate">60%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 课程导航（类似学习通刷课进度） -->
+        <div class="course-navigation">
+            <div class="section-header">
+                <h3>课程导航</h3>
+                <div class="filter-tabs">
+                    <button class="filter-btn active" data-filter="all">全部课程</button>
+                    <button class="filter-btn" data-filter="in-progress">进行中</button>
+                    <button class="filter-btn" data-filter="completed">已完成</button>
+                    <button class="filter-btn" data-filter="not-started">未开始</button>
+                </div>
+            </div>
+            <div class="course-list" id="courseList">
+                <!-- 由JS动态生成 -->
+            </div>
+        </div>
+
+        <!-- 最近学习记录 -->
+        <div class="recent-activity">
+            <div class="section-header">
+                <h3>最近学习记录</h3>
+                <button class="view-all-btn">查看全部</button>
+            </div>
+            <div class="activity-timeline" id="activityTimeline">
+                <!-- 由JS动态生成 -->
+            </div>
+        </div>
+
+        <!-- 每周学习日历 -->
+        <div class="weekly-calendar">
+            <div class="section-header">
+                <h3>本周学习日历</h3>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- 由JS动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="activity.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI辅导对话</title>
+    <link rel="stylesheet" href="ai-chat.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="history.back()">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <div class="header-title">
+                <h2>AI辅导对话</h2>
+                <span class="subtitle">智能学习助手 · 随时解答</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" title="返回聊天">
+                <a href="index.html" style="color:white;text-decoration:none;">💬</a>
+            </button>
+            <button class="header-btn" title="学情画像">
+                <a href="profile.html" style="color:white;text-decoration:none;">📊</a>
+            </button>
+            <button class="header-btn" title="学习路径">
+                <a href="learning-path.html" style="color:white;text-decoration:none;">🗺️</a>
+            </button>
+            <button class="header-btn" title="学习建议">
+                <a href="suggestions.html" style="color:white;text-decoration:none;">💡</a>
+            </button>
+            <button class="header-btn" title="学习记录">
+                <a href="activity.html" style="color:white;text-decoration:none;">📋</a>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="main-content">
+        <!-- 消息展示区域 -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- 欢迎消息 -->
+            <div class="message ai-message">
+                <div class="message-avatar">
+                    <svg viewBox="0 0 40 40" width="40" height="40">
+                        <rect width="40" height="40" rx="10" fill="#6366f1"/>
+                        <text x="20" y="26" text-anchor="middle" fill="white" font-size="20">AI</text>
+                    </svg>
+                </div>
+                <div class="message-bubble">
+                    <div class="bubble-content">你好！我是你的AI学习助手，可以帮你解答学习问题、提供学习建议、辅导课程内容。有什么我可以帮你的吗？</div>
+                    <div class="bubble-time">刚刚</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 快捷问题 -->
+        <div class="quick-questions" id="quickQuestions">
+            <button class="quick-btn" data-question="帮我解释一下Python函数的参数传递">函数参数传递</button>
+            <button class="quick-btn" data-question="我最近学习效率不高，有什么建议吗？">学习效率建议</button>
+            <button class="quick-btn" data-question="帮我制定一个本周的学习计划">制定学习计划</button>
+            <button class="quick-btn" data-question="我在学习面向对象时遇到困难">面向对象辅导</button>
+        </div>
+
+        <!-- 输入区域 -->
+        <div class="chat-input-area">
+            <div class="input-container">
+                <button class="emoji-btn" title="表情">😊</button>
+                <input type="text" class="message-input" id="messageInput" placeholder="输入你的问题..." autocomplete="off">
+                <button class="send-btn" id="sendBtn" title="发送">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="ai-chat.js"></script>
+</body>
+</html>

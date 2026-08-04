@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个性化学习路径</title>
+    <link rel="stylesheet" href="learning-path.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="history.back()">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <div class="header-title">
+                <h2>个性化学习路径</h2>
+                <span class="subtitle">基于AI分析的智能学习规划</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" title="返回聊天">
+                <a href="index.html" style="color: white; text-decoration: none;">💬</a>
+            </button>
+            <button class="header-btn" title="学情画像">
+                <a href="profile.html" style="color: white; text-decoration: none;">📊</a>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="main-content">
+        <!-- 路径概览卡片 -->
+        <div class="path-overview">
+            <div class="overview-card">
+                <div class="card-icon">🎯</div>
+                <div class="card-info">
+                    <h3>当前学习目标</h3>
+                    <p class="target-text">掌握Python基础编程</p>
+                </div>
+            </div>
+            <div class="overview-card">
+                <div class="card-icon">📈</div>
+                <div class="card-info">
+                    <h3>总体进度</h3>
+                    <p class="progress-text">35%</p>
+                </div>
+            </div>
+            <div class="overview-card">
+                <div class="card-icon">⏱️</div>
+                <div class="card-info">
+                    <h3>预计完成时间</h3>
+                    <p class="time-text">12天</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI生成区域 -->
+        <div class="ai-output-area">
+            <div class="ai-header">
+                <span class="ai-badge">AI</span>
+                <span>学习路径生成中...</span>
+            </div>
+            <div class="ai-output-content" id="aiOutput">
+                <div class="placeholder-text">
+                    等待AI分析学情数据后，将在此处生成个性化学习路径建议...
+                </div>
+            </div>
+        </div>
+
+        <!-- 学习路径时间线 -->
+        <div class="path-timeline">
+            <h3>学习路径规划</h3>
+            <div class="timeline" id="timeline">
+                <!-- 时间线项由JS动态生成 -->
+            </div>
+        </div>
+
+        <!-- 知识模块卡片 -->
+        <div class="knowledge-modules">
+            <h3>知识模块</h3>
+            <div class="module-grid" id="moduleGrid">
+                <!-- 模块卡片由JS动态生成 -->
+            </div>
+        </div>
+
+        <!-- 每日任务 -->
+        <div class="daily-tasks">
+            <h3>今日任务</h3>
+            <div class="task-list" id="taskList">
+                <!-- 任务列表由JS动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="learning-path.js"></script>
+</body>
+</html>

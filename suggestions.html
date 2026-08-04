@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个性化学习建议</title>
+    <link rel="stylesheet" href="suggestions.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="history.back()">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <div class="header-title">
+                <h2>个性化学习建议</h2>
+                <span class="subtitle">AI智能分析 · 精准推荐</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" title="返回聊天">
+                <a href="index.html" style="color:white;text-decoration:none;">💬</a>
+            </button>
+            <button class="header-btn" title="学情画像">
+                <a href="profile.html" style="color:white;text-decoration:none;">📊</a>
+            </button>
+            <button class="header-btn" title="学习路径">
+                <a href="learning-path.html" style="color:white;text-decoration:none;">🗺️</a>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="main-content">
+        <!-- 建议概览 -->
+        <div class="suggestion-overview">
+            <div class="overview-card">
+                <div class="card-icon">💡</div>
+                <div class="card-info">
+                    <h3>今日建议数</h3>
+                    <p class="count-text" id="suggestionCount">6</p>
+                </div>
+            </div>
+            <div class="overview-card">
+                <div class="card-icon"></div>
+                <div class="card-info">
+                    <h3>重点关注</h3>
+                    <p class="focus-text">函数与模块</p>
+                </div>
+            </div>
+            <div class="overview-card">
+                <div class="card-icon">⚡</div>
+                <div class="card-info">
+                    <h3>建议更新</h3>
+                    <p class="update-text">刚刚</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI建议生成区域 -->
+        <div class="ai-output-area">
+            <div class="ai-header">
+                <span class="ai-badge">AI</span>
+                <span>个性化建议生成中...</span>
+            </div>
+            <div class="ai-output-content" id="aiOutput">
+                <div class="placeholder-text">
+                    等待AI分析学习数据后，将在此处生成个性化学习建议...
+                </div>
+            </div>
+        </div>
+
+        <!-- 建议分类标签 -->
+        <div class="category-tabs">
+            <button class="tab-btn active" data-category="all">全部</button>
+            <button class="tab-btn" data-category="method">学习方法</button>
+            <button class="tab-btn" data-category="resource">学习资源</button>
+            <button class="tab-btn" data-category="review">复习建议</button>
+            <button class="tab-btn" data-category="practice">练习推荐</button>
+        </div>
+
+        <!-- 建议列表 -->
+        <div class="suggestion-list" id="suggestionList">
+            <!-- 由JS动态生成 -->
+        </div>
+    </div>
+
+    <script src="suggestions.js"></script>
+</body>
+</html>
