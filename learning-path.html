@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个性化学习路径</title>
     <link rel="stylesheet" href="learning-path.css">
+    <link rel="stylesheet" href="dark-theme.css">
+    <script src="theme.js"></script>
 </head>
 <body>
     <!-- 顶部导航栏 -->
@@ -21,12 +23,12 @@
             </div>
         </div>
         <div class="header-actions">
-            <button class="header-btn" title="返回聊天">
-                <a href="index.html" style="color: white; text-decoration: none;">💬</a>
-            </button>
-            <button class="header-btn" title="学情画像">
-                <a href="profile.html" style="color: white; text-decoration: none;">📊</a>
-            </button>
+            <a href="index.html" class="header-btn" title="返回聊天">💬</a>
+            <a href="learning-path.html" class="header-btn active" title="学习路径">🗺️</a>
+            <a href="suggestions.html" class="header-btn" title="学习建议">💡</a>
+            <a href="activity.html" class="header-btn" title="学习记录">📋</a>
+            <a href="profile.html" class="header-btn" title="学情画像">📊</a>
+            <button class="header-btn" id="themeToggle" title="切换主题">🌙</button>
         </div>
     </div>
 

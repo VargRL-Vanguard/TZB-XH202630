@@ -1,0 +1,371 @@
+/* ==================== 全局深色模式（子页面共享） ==================== */
+/* 适用于 profile / learning-path / suggestions / activity / ai-chat */
+/* index.html 的深色规则在 style.css 中维护，不在此文件内 */
+
+/* ---------- 页面背景 ---------- */
+.dark-theme body {
+    background: linear-gradient(135deg, #14161f 0%, #1a1d2e 50%, #14161f 100%);
+    color: #e5e7eb;
+}
+
+/* ---------- 顶部导航栏 ---------- */
+/* learning-path / suggestions / activity / ai-chat：紫渐变头，深色下压暗 */
+.dark-theme .header {
+    background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* profile 顶部导航（白底） */
+.dark-theme .profile-header {
+    background: #1f2333;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .page-title {
+    background: linear-gradient(135deg, #a89bf5 0%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* profile header 按钮（灰底） */
+.dark-theme .profile-header .header-btn {
+    background: #2a2e3e;
+}
+.dark-theme .profile-header .header-btn:hover {
+    background: #353a4d;
+}
+
+/* ---------- 白色卡片 → 深色卡片 ---------- */
+.dark-theme .section-card,
+.dark-theme .student-info-card,
+.dark-theme .metric-card,
+.dark-theme .path-timeline,
+.dark-theme .knowledge-modules,
+.dark-theme .daily-tasks,
+.dark-theme .course-navigation,
+.dark-theme .recent-activity,
+.dark-theme .weekly-calendar,
+.dark-theme .main-content,
+.dark-theme .ai-output-area {
+    background: #1f2333;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- 灰色子项背景 ---------- */
+.dark-theme .timeline-item,
+.dark-theme .activity-item,
+.dark-theme .course-item,
+.dark-theme .module-card,
+.dark-theme .task-item,
+.dark-theme .calendar-day,
+.dark-theme .dimension-item,
+.dark-theme .behavior-stat-item,
+.dark-theme .knowledge-item,
+.dark-theme .suggestion-item,
+.dark-theme .chart-placeholder {
+    background: #2a2e3e;
+}
+
+.dark-theme .timeline-item:hover,
+.dark-theme .activity-item:hover,
+.dark-theme .course-item:hover,
+.dark-theme .task-item:hover,
+.dark-theme .calendar-day:hover,
+.dark-theme .suggestion-item:hover {
+    background: #353a4d;
+}
+
+/* module-card 边框 */
+.dark-theme .module-card {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.dark-theme .module-card:hover {
+    border-color: #6366f1;
+}
+
+/* AI 生成区域虚线边框 */
+.dark-theme .ai-output-area {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: #1f2333;
+}
+
+/* ---------- 概览/统计彩色卡片（压暗） ---------- */
+.dark-theme .path-overview .overview-card:nth-child(1),
+.dark-theme .suggestion-overview .overview-card:nth-child(1) {
+    background: linear-gradient(135deg, #4a3a1a 0%, #5c4622 100%);
+}
+.dark-theme .path-overview .overview-card:nth-child(2),
+.dark-theme .suggestion-overview .overview-card:nth-child(2) {
+    background: linear-gradient(135deg, #1e3a5f 0%, #1e4a7a 100%);
+}
+.dark-theme .path-overview .overview-card:nth-child(3),
+.dark-theme .suggestion-overview .overview-card:nth-child(3) {
+    background: linear-gradient(135deg, #3a2f5f 0%, #4a3a7a 100%);
+}
+
+.dark-theme .stats-overview .stat-card:nth-child(1) {
+    background: linear-gradient(135deg, #1e3a5f 0%, #1e4a7a 100%);
+}
+.dark-theme .stats-overview .stat-card:nth-child(2) {
+    background: linear-gradient(135deg, #1e3a2f 0%, #1e4a3a 100%);
+}
+.dark-theme .stats-overview .stat-card:nth-child(3) {
+    background: linear-gradient(135deg, #3a1e1e 0%, #4a2424 100%);
+}
+.dark-theme .stats-overview .stat-card:nth-child(4) {
+    background: linear-gradient(135deg, #3a2f5f 0%, #4a3a7a 100%);
+}
+
+.dark-theme .overview-card,
+.dark-theme .stat-card {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .card-icon,
+.dark-theme .stat-icon,
+.dark-theme .metric-icon {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- 文字颜色（主标题/数值） ---------- */
+.dark-theme h1, .dark-theme h2, .dark-theme h3,
+.dark-theme .student-name,
+.dark-theme .timeline-title,
+.dark-theme .course-title,
+.dark-theme .module-name,
+.dark-theme .activity-title,
+.dark-theme .day-date,
+.dark-theme .metric-value,
+.dark-theme .stat-value,
+.dark-theme .target-text,
+.dark-theme .progress-text,
+.dark-theme .time-text,
+.dark-theme .count-text,
+.dark-theme .focus-text,
+.dark-theme .update-text,
+.dark-theme .knowledge-name,
+.dark-theme .dimension-value,
+.dark-theme .behavior-stat-value,
+.dark-theme .section-title,
+.dark-theme .meta-value,
+.dark-theme .suggestion-title,
+.dark-theme .task-title {
+    color: #e5e7eb;
+}
+
+/* 紫色强调数值（提亮以适配深色背景） */
+.dark-theme .knowledge-score,
+.dark-theme .module-progress {
+    color: #a78bfa;
+}
+
+/* ---------- 文字颜色（次要/说明） ---------- */
+.dark-theme .subtitle,
+.dark-theme .student-id,
+.dark-theme .timeline-desc,
+.dark-theme .activity-desc,
+.dark-theme .course-meta,
+.dark-theme .module-desc,
+.dark-theme .task-meta,
+.dark-theme .timeline-meta,
+.dark-theme .day-name,
+.dark-theme .day-hours,
+.dark-theme .metric-label,
+.dark-theme .stat-info h3,
+.dark-theme .card-info h3,
+.dark-theme .meta-label,
+.dark-theme .dimension-name,
+.dark-theme .behavior-stat-label,
+.dark-theme .suggestion-content,
+.dark-theme .suggestion-meta,
+.dark-theme .ai-header,
+.dark-theme .placeholder-text,
+.dark-theme .activity-time {
+    color: #9ca3af;
+}
+
+/* ---------- 标签 / 按钮 ---------- */
+.dark-theme .filter-btn,
+.dark-theme .filter-tabs .filter-btn,
+.dark-theme .view-all-btn,
+.dark-theme .section-action,
+.dark-theme .tab-btn {
+    background: #2a2e3e;
+    color: #9ca3af;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.dark-theme .filter-btn:hover,
+.dark-theme .view-all-btn:hover,
+.dark-theme .section-action:hover,
+.dark-theme .tab-btn:hover {
+    background: #353a4d;
+    color: #c4b5fd;
+}
+
+/* 状态标签 */
+.dark-theme .course-status.completed,
+.dark-theme .timeline-status.completed {
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+}
+.dark-theme .course-status.in-progress,
+.dark-theme .timeline-status.current {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fcd34d;
+}
+.dark-theme .course-status.not-started,
+.dark-theme .timeline-status.pending {
+    background: rgba(255, 255, 255, 0.08);
+    color: #9ca3af;
+}
+
+/* 优先级标签 */
+.dark-theme .priority-high {
+    background: rgba(239, 68, 68, 0.18);
+    color: #fca5a5;
+}
+.dark-theme .priority-medium {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fcd34d;
+}
+.dark-theme .priority-low {
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+}
+
+/* 建议分类小标签 */
+.dark-theme .suggestion-category {
+    background: rgba(99, 102, 241, 0.2);
+    color: #c4b5fd;
+}
+
+/* profile 学生标签（黄色） */
+.dark-theme .student-tag {
+    background: linear-gradient(135deg, #4a3a1a 0%, #5c4622 100%);
+    color: #fcd34d;
+}
+
+/* profile 建议项（黄色） */
+.dark-theme .profile-container .suggestion-item {
+    background: linear-gradient(135deg, #3a2f1a 0%, #4a3a22 100%);
+}
+.dark-theme .profile-container .suggestion-title {
+    color: #fcd34d;
+}
+.dark-theme .profile-container .suggestion-desc {
+    color: #fde68a;
+}
+
+/* 任务优先级 */
+.dark-theme .task-priority.high {
+    background: rgba(239, 68, 68, 0.18);
+    color: #fca5a5;
+}
+.dark-theme .task-priority.medium {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fcd34d;
+}
+.dark-theme .task-priority.low {
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+}
+
+/* 任务复选框 */
+.dark-theme .task-checkbox {
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- 进度条 ---------- */
+.dark-theme .progress-bar,
+.dark-theme .module-bar,
+.dark-theme .knowledge-bar {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- 今日日历高亮 ---------- */
+.dark-theme .calendar-day.today {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: #fff;
+}
+
+/* 时间线/活动项圆点边框（白色 → 卡片底色） */
+.dark-theme .timeline-item::before,
+.dark-theme .activity-item::before {
+    border-color: #1f2333;
+}
+
+/* ==================== ai-chat 聊天区 ==================== */
+.dark-theme .chat-messages {
+    background: linear-gradient(180deg, #1a1d2e 0%, #1f2333 100%);
+}
+
+.dark-theme .ai-message .bubble-content {
+    background: #2a2e3e;
+    color: #e5e7eb;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .quick-questions,
+.dark-theme .chat-input-area {
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .quick-btn {
+    background: #2a2e3e;
+    color: #c4b5fd;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.dark-theme .quick-btn:hover {
+    background: #6366f1;
+    color: #fff;
+    border-color: #6366f1;
+}
+
+.dark-theme .input-container {
+    background: #2a2e3e;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.dark-theme .input-container:focus-within {
+    background: #1f2333;
+    border-color: #6366f1;
+}
+
+.dark-theme .message-input {
+    color: #e5e7eb;
+}
+.dark-theme .message-input::placeholder {
+    color: #6b7280;
+}
+
+.dark-theme .emoji-btn {
+    color: #9ca3af;
+}
+.dark-theme .emoji-btn:hover {
+    background: #353a4d;
+}
+
+/* ==================== 滚动条 ==================== */
+.dark-theme .chat-messages::-webkit-scrollbar-thumb,
+.dark-theme .emoji-category-content::-webkit-scrollbar-thumb,
+.dark-theme .phrase-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ==================== 平滑过渡 ==================== */
+.dark-theme body,
+.dark-theme .header,
+.dark-theme .profile-header,
+.dark-theme .section-card,
+.dark-theme .student-info-card,
+.dark-theme .metric-card,
+.dark-theme .path-timeline,
+.dark-theme .knowledge-modules,
+.dark-theme .daily-tasks,
+.dark-theme .course-navigation,
+.dark-theme .recent-activity,
+.dark-theme .weekly-calendar,
+.dark-theme .main-content,
+.dark-theme .ai-output-area {
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}

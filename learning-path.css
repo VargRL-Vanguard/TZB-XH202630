@@ -7,12 +7,13 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, #fef9f3 0%, #f5f0ff 50%, #e0f2fe 100%);
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 50%, #e0f2fe 100%);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
 }
 
 /* 顶部导航栏 */
@@ -20,12 +21,13 @@ body {
     width: 100%;
     max-width: 1200px;
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px;
     padding: 20px 24px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 16px;
     color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .header-left {
@@ -82,57 +84,84 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
 
 .header-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.32);
+    transform: translateY(-1px);
+}
+
+.header-btn.active {
+    background: rgba(255, 255, 255, 0.95);
+    color: #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
 }
 
 /* 主体内容 */
 .main-content {
     width: 100%;
     max-width: 1200px;
-    background: white;
-    border-radius: 0 0 20px 20px;
-    padding: 24px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* 路径概览卡片 */
 .path-overview {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 24px;
+    grid-template-columns: 1fr;
+    gap: 18px;
 }
 
 .overview-card {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     border-radius: 16px;
-    padding: 20px;
+    padding: 22px;
     display: flex;
     align-items: center;
     gap: 16px;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.overview-card:nth-child(1) {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+.overview-card:nth-child(2) {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+.overview-card:nth-child(3) {
+    background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
 }
 
 .overview-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.12);
 }
 
 .card-icon {
-    font-size: 32px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    backdrop-filter: blur(4px);
 }
 
 .card-info h3 {
-    font-size: 12px;
+    font-size: 12.5px;
     color: #6b7280;
     margin-bottom: 4px;
+    font-weight: 500;
 }
 
 .target-text, .progress-text, .time-text {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 19px;
+    font-weight: 700;
     color: #1f2937;
 }
 
@@ -141,7 +170,6 @@ body {
     background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
     border-radius: 16px;
     padding: 20px;
-    margin-bottom: 24px;
     border: 2px dashed #d1d5db;
 }
 
@@ -176,7 +204,10 @@ body {
 
 /* 学习路径时间线 */
 .path-timeline {
-    margin-bottom: 24px;
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .path-timeline h3 {
@@ -294,7 +325,10 @@ body {
 
 /* 知识模块卡片 */
 .knowledge-modules {
-    margin-bottom: 24px;
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .knowledge-modules h3 {
@@ -306,7 +340,7 @@ body {
 
 .module-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: 1fr;
     gap: 16px;
 }
 
@@ -364,7 +398,10 @@ body {
 
 /* 每日任务 */
 .daily-tasks {
-    margin-bottom: 24px;
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .daily-tasks h3 {
@@ -462,11 +499,21 @@ body {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-    .path-overview {
-        grid-template-columns: 1fr;
+    .header {
+        padding: 16px;
     }
-    
-    .module-grid {
-        grid-template-columns: 1fr;
+
+    .header-title h2 {
+        font-size: 17px;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+
+    .header-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
     }
 }

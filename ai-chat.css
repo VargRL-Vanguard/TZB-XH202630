@@ -7,12 +7,13 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, #fef9f3 0%, #f5f0ff 50%, #e0f2fe 100%);
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 50%, #e0f2fe 100%);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
 }
 
 /* 顶部导航栏 */
@@ -20,12 +21,13 @@ body {
     width: 100%;
     max-width: 1200px;
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px;
     padding: 20px 24px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 16px;
     color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .header-left {
@@ -82,10 +84,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
 
 .header-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.32);
+    transform: translateY(-1px);
+}
+
+.header-btn.active {
+    background: rgba(255, 255, 255, 0.95);
+    color: #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
 }
 
 /* 主体内容 */
@@ -93,11 +103,12 @@ body {
     width: 100%;
     max-width: 1200px;
     background: white;
-    border-radius: 0 0 20px 20px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 140px);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 240px);
+    min-height: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     overflow: hidden;
 }
 

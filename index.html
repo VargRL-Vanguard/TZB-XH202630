@@ -13,47 +13,115 @@
         <div class="decorative-blob"></div>
         <div class="decorative-blob"></div>
     </div>
-    
+
     <!-- Toast提示 -->
     <div class="toast" id="toast"></div>
-    
+
     <!-- 滚动到顶部按钮 -->
-    <button class="scroll-top-btn" id="scrollTopBtn">🔝</button>
-    
+    <button class="scroll-top-btn" id="scrollTopBtn" title="回到顶部">🔝</button>
+
+    <!-- 连击提示 -->
+    <div class="combo-notification" id="comboNotification">
+        <div class="combo-text" id="comboText"></div>
+        <div class="combo-count" id="comboCount"></div>
+    </div>
+
     <!-- 聊天框主容器 -->
     <div class="chat-container">
         <!-- 顶部导航栏 -->
         <div class="chat-header">
             <div class="chat-partner">
+                <button class="header-btn history-toggle-btn" id="historyToggleBtn" title="历史聊天记录">🕘</button>
                 <div class="avatar-container">🤖</div>
                 <div>
                     <div class="chat-title">智能助手</div>
                     <div class="online-status">
                         <span class="online-dot"></span>
-                        <span>在线</span>
+                        <span id="onlineStatusText">在线</span>
                     </div>
                 </div>
             </div>
             <div class="header-actions">
+                <button class="header-btn new-chat-btn" id="newChatBtn" title="新对话 (Ctrl+N)">✚</button>
                 <a href="learning-path.html" class="header-btn" title="学习路径">🗺️</a>
                 <a href="suggestions.html" class="header-btn" title="学习建议">💡</a>
                 <a href="activity.html" class="header-btn" title="学习记录">📋</a>
                 <a href="ai-chat.html" class="header-btn" title="AI辅导">🤖</a>
                 <a href="profile.html" class="header-btn" title="学情画像">📊</a>
                 <button class="header-btn" id="themeToggle" title="切换主题">🌙</button>
-                <button class="header-btn" title="设置">⚙️</button>
-                <button class="header-btn" id="voiceInputBtn" title="语音输入">🎙️</button>
+                <button class="header-btn" id="shortcutsBtn" title="快捷键 (?)">⌨️</button>
+                <button class="header-btn" id="settingsBtn" title="设置">⚙️</button>
             </div>
         </div>
-        
+
         <!-- 搜索框 -->
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="搜索消息... (Ctrl+/)" autocomplete="off">
             <span class="search-icon">🔍</span>
         </div>
-        
+
+        <!-- 历史聊天记录侧边栏 -->
+        <div class="history-sidebar" id="historySidebar">
+            <div class="history-sidebar-header">
+                <h3>历史聊天记录</h3>
+                <button class="history-sidebar-close" id="historySidebarClose" title="关闭">✕</button>
+            </div>
+            <div class="history-search">
+                <input type="text" id="historySearchInput" placeholder="搜索历史会话..." autocomplete="off">
+            </div>
+            <div class="history-list" id="historyList">
+                <!-- 历史会话列表动态渲染 -->
+            </div>
+            <div class="history-empty" id="historyEmpty">
+                <div class="history-empty-icon">📭</div>
+                <p>暂无历史聊天记录</p>
+            </div>
+        </div>
+
+        <!-- 历史会话详情查看面板 -->
+        <div class="history-detail-overlay" id="historyDetailOverlay">
+            <div class="history-detail-modal">
+                <div class="history-detail-header">
+                    <div class="history-detail-title" id="historyDetailTitle">历史会话</div>
+                    <div class="history-detail-actions">
+                        <button class="history-detail-btn" id="historyDetailRestore" title="恢复到当前对话">↩️ 恢复</button>
+                        <button class="history-detail-btn" id="historyDetailDelete" title="删除该会话">🗑️ 删除</button>
+                        <button class="history-detail-close" id="historyDetailClose" title="关闭">✕</button>
+                    </div>
+                </div>
+                <div class="history-detail-body" id="historyDetailBody">
+                    <!-- 历史消息渲染在这里 -->
+                </div>
+            </div>
+        </div>
+
         <!-- 消息展示区域 -->
         <div class="chat-messages" id="chat-messages">
+            <!-- 欢迎空状态 -->
+            <div class="empty-state" id="emptyState">
+                <div class="empty-state-icon">💬</div>
+                <h2 class="empty-state-title">开始和智能助手对话</h2>
+                <p class="empty-state-desc">有问题随时问我，也可以试试下面的快捷话题</p>
+                <div class="empty-state-suggestions">
+                    <button class="suggestion-card" data-suggestion="你能做什么？">
+                        <span class="suggestion-icon">✨</span>
+                        <span class="suggestion-text">了解我的能力</span>
+                    </button>
+                    <button class="suggestion-card" data-suggestion="给我推荐一个学习方法">
+                        <span class="suggestion-icon">📚</span>
+                        <span class="suggestion-text">学习方法建议</span>
+                    </button>
+                    <button class="suggestion-card" data-suggestion="今天的学习计划是什么？">
+                        <span class="suggestion-icon">🗓️</span>
+                        <span class="suggestion-text">查看今日计划</span>
+                    </button>
+                    <button class="suggestion-card" data-suggestion="讲个笑话听听">
+                        <span class="suggestion-icon">😄</span>
+                        <span class="suggestion-text">来点轻松的</span>
+                    </button>
+                </div>
+            </div>
+
             <div class="messages-list" id="messages-list">
                 <!-- 消息将动态插入这里 -->
             </div>
@@ -67,26 +135,183 @@
                 <span class="typing-text">正在输入...</span>
             </div>
         </div>
-        
+
+        <!-- 回到底部按钮 -->
+        <button class="scroll-bottom-btn" id="scrollBottomBtn" title="回到底部">
+            <span class="new-message-badge" id="newMessageBadge"></span>
+            ↓
+        </button>
+
         <!-- 输入区域 -->
         <div class="chat-input-area">
+            <!-- 表情选择器（含快捷短语） -->
+            <div class="emoji-picker" id="emojiPicker"></div>
             <div class="input-container">
                 <button class="input-btn emoji-btn" id="emojiBtn" title="表情">😊</button>
-                <input 
-                    type="text" 
-                    id="user-input" 
-                    placeholder="输入消息..." 
+                <input
+                    type="text"
+                    id="user-input"
+                    placeholder="输入消息..."
                     autocomplete="off"
+                    maxlength="500"
                 >
-                <button class="send-btn" id="send-btn">➤</button>
+                <span class="char-counter" id="charCounter">0/500</span>
+                <button class="send-btn" id="send-btn" disabled>➤</button>
             </div>
-            <!-- 快捷回复 -->
-            <div class="quick-replies" id="quickReplies"></div>
         </div>
     </div>
-    
-    <!-- 表情选择器 -->
-    <div class="emoji-picker" id="emojiPicker"></div>
+
+    <!-- 消息反应选择器 -->
+    <div class="reaction-picker" id="reactionPicker">
+        <button class="reaction-item" data-reaction="👍">👍</button>
+        <button class="reaction-item" data-reaction="❤️">❤️</button>
+        <button class="reaction-item" data-reaction="😂">😂</button>
+        <button class="reaction-item" data-reaction="😮">😮</button>
+        <button class="reaction-item" data-reaction="🎉">🎉</button>
+        <button class="reaction-item" data-reaction="🙏">🙏</button>
+    </div>
+
+    <!-- 双击消息操作菜单 -->
+    <div class="action-menu" id="doubleClickActionMenu">
+        <div class="action-menu-title">消息操作</div>
+        <button class="action-menu-item" data-action="copy">
+            <span class="action-menu-icon">📋</span>
+            <span class="action-menu-text">复制</span>
+        </button>
+        <button class="action-menu-item" data-action="reply">
+            <span class="action-menu-icon">↩️</span>
+            <span class="action-menu-text">回复</span>
+        </button>
+        <button class="action-menu-item" data-action="forward">
+            <span class="action-menu-icon">➡️</span>
+            <span class="action-menu-text">转发</span>
+        </button>
+        <button class="action-menu-item" data-action="react">
+            <span class="action-menu-icon">😊</span>
+            <span class="action-menu-text">添加反应</span>
+        </button>
+        <button class="action-menu-item" data-action="favorite">
+            <span class="action-menu-icon">🤍</span>
+            <span class="action-menu-text">收藏</span>
+        </button>
+        <button class="action-menu-item action-menu-item--danger" data-action="delete">
+            <span class="action-menu-icon">🗑️</span>
+            <span class="action-menu-text">删除</span>
+        </button>
+    </div>
+
+    <!-- 快捷键帮助面板 -->
+    <div class="shortcuts-overlay" id="shortcutsOverlay">
+        <div class="shortcuts-modal">
+            <div class="shortcuts-header">
+                <h3>键盘快捷键</h3>
+                <button class="shortcuts-close" id="shortcutsClose">✕</button>
+            </div>
+            <div class="shortcuts-list">
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">发送消息</span>
+                    <span class="shortcut-keys"><kbd>Enter</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">发送消息（强制）</span>
+                    <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">新建对话</span>
+                    <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>N</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">聚焦搜索框</span>
+                    <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>/</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">切换主题</span>
+                    <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>D</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">打开表情面板</span>
+                    <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>E</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">查看快捷键</span>
+                    <span class="shortcut-keys"><kbd>?</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-desc">关闭弹窗</span>
+                    <span class="shortcut-keys"><kbd>Esc</kbd></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置面板 -->
+    <div class="shortcuts-overlay" id="settingsOverlay">
+        <div class="shortcuts-modal settings-modal">
+            <div class="shortcuts-header">
+                <h3>设置</h3>
+                <button class="shortcuts-close" id="settingsClose">✕</button>
+            </div>
+            <div class="settings-list">
+                <!-- 深色模式 -->
+                <div class="settings-item">
+                    <div class="settings-item-info">
+                        <span class="settings-item-icon">🌙</span>
+                        <div>
+                            <div class="settings-item-name">深色模式</div>
+                            <div class="settings-item-desc">切换浅色/深色主题</div>
+                        </div>
+                    </div>
+                    <label class="settings-switch">
+                        <input type="checkbox" id="settingsThemeToggle">
+                        <span class="settings-switch-slider"></span>
+                    </label>
+                </div>
+                <!-- 清除所有聊天记录 -->
+                <div class="settings-item settings-item-action" id="settingsClearChat">
+                    <div class="settings-item-info">
+                        <span class="settings-item-icon">🗑️</span>
+                        <div>
+                            <div class="settings-item-name">清除所有聊天记录</div>
+                            <div class="settings-item-desc">删除当前对话及历史会话</div>
+                        </div>
+                    </div>
+                    <span class="settings-item-arrow">›</span>
+                </div>
+                <!-- 导出聊天记录 -->
+                <div class="settings-item settings-item-action" id="settingsExport">
+                    <div class="settings-item-info">
+                        <span class="settings-item-icon">📤</span>
+                        <div>
+                            <div class="settings-item-name">导出聊天记录</div>
+                            <div class="settings-item-desc">保存为文本文件</div>
+                        </div>
+                    </div>
+                    <span class="settings-item-arrow">›</span>
+                </div>
+                <!-- 快捷键 -->
+                <div class="settings-item settings-item-action" id="settingsShortcuts">
+                    <div class="settings-item-info">
+                        <span class="settings-item-icon">⌨️</span>
+                        <div>
+                            <div class="settings-item-name">键盘快捷键</div>
+                            <div class="settings-item-desc">查看所有快捷键</div>
+                        </div>
+                    </div>
+                    <span class="settings-item-arrow">›</span>
+                </div>
+                <!-- 关于 -->
+                <div class="settings-item settings-item-action" id="settingsAbout">
+                    <div class="settings-item-info">
+                        <span class="settings-item-icon">ℹ️</span>
+                        <div>
+                            <div class="settings-item-name">关于</div>
+                            <div class="settings-item-desc">智能助手 v1.0</div>
+                        </div>
+                    </div>
+                    <span class="settings-item-arrow">›</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
