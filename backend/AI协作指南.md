@@ -16,8 +16,8 @@
 
 1. [`协作协议.md`](./协作协议.md) — 工作协议、**夺奖红线**、3 项硬指标
 2. [`概览.md`](./概览.md) — 分工总览、**夺奖重点**、时间线
-3. **根目录中自己专属的** `任务清单_N_xxx.md`（每人只读自己那一个文件即可），例如 `任务清单_1_用户与聊天.md`
-4. **自己区的** `概览.md`（如 `2_学情数据/概览.md`）— 详细对外契约
+3. **根目录中自己专属的** `任务清单_N_xxx.md`（每人只读自己那一个文件即可），例如 `任务清单_a_用户与聊天.md`
+4. **自己区的** `概览.md`（如 `b_学情数据/概览.md`）— 详细对外契约
 5. `api-doc.js`（项目根目录）— 接口契约
 6. **`backend/prompts/` 提示词库**（[`prompts/README.md`](./prompts/README.md)）— **做什么**
 7. **`backend/workflows/` 工作流程库**（[`workflows/README.md`](./workflows/README.md)）— **怎么做（防 AI 幻觉关键）**
@@ -49,7 +49,7 @@ A-04 WebSocket 事件 ─┘                                          │
 
 ### 4.1 每个 Agent 的硬要求
 - ✅ 通过 A-04 的 `ws.emit(agentName, event_type, ...)` 推送过程事件
-- ✅ 落 `agent_log` 表（`backend.4_AI集成` 的 D-00 提供 ORM，**不**能直接写库）
+- ✅ 落 `agent_log` 表（`backend.d_AI集成` 的 D-00 提供 ORM，**不**能直接写库）
 - ✅ 调 A 的 `公共/metrics.*` 自检
 - ✅ 保留 traceId，串联到下一个 Agent
 
@@ -108,7 +108,7 @@ A-04 WebSocket 事件 ─┘                                          │
 | 测试 | 验收标准中包含 "测试" 的，AI 必须**真写**测试代码，不是注释 |
 | 输出 | 不要修改 `任务清单_N_xxx.md` 之外的顶层文档（概览.md / 协作协议.md / AI协作指南.md） |
 | **指标** | **只** `from backend.公共 import metrics`，**禁止**自己写同名函数 |
-| **事件** | **只** `from backend.1_用户与聊天.ws.emit import emit`，**禁止**绕过 WebSocket 直接落库 |
+| **事件** | **只** `from backend.a_用户与聊天.ws.emit import emit`，**禁止**绕过 WebSocket 直接落库 |
 | **日志** | 落 `agent_log` 表用 D 暴露的函数，**禁止**直接 INSERT |
 
 ## 7. 工作循环

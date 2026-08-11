@@ -1,0 +1,91 @@
+# ========== Python ==========
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 虚拟环境
+venv/
+.venv/
+env/
+ENV/
+
+# pytest
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# mypy / linter
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# ========== 环境配置 ==========
+# ⚠️ 绝对不能提交 .env（含数据库密码 / API key）
+.env
+.env.local
+.env.*.local
+.env.production
+
+# .env.example 是模板，可以提交
+!.env.example
+
+# ========== 运行时产物 ==========
+logs/
+*.log
+app_*.log
+error_*.log
+
+# ========== 临时 / 缓存 ==========
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/settings.json
+*.tmp
+*.bak
+*.pid
+
+# ========== 业务数据 ==========
+# 测试用的数据库导出、报告
+data/exports/
+docs/quality_reports/*.json
+!docs/quality_reports/.gitkeep
+
+# 知识库原始文件（体积大，不进 git）
+backend/公共/kb_raw/
+backend/c_学习内容/kb/
+
+# ========== 任务产物 ==========
+# 演示视频
+demo_videos/
+*.mp4
+!docs/demo/.gitkeep

@@ -1,0 +1,33 @@
+# S-01 任务依赖（挑战杯项目后端）
+# Python >= 3.10
+# 装包命令：pip install -r requirements.txt
+
+# Web 框架
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+
+# 数据校验 + 配置
+pydantic==2.9.2
+pydantic-settings==2.5.2
+
+# 日志
+loguru==0.7.2
+
+# 鉴权（A-01 用）
+PyJWT==2.9.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.12
+
+# 测试
+pytest==8.3.3
+pytest-asyncio==0.24.0
+
+# WebSocket（A-04 用）
+websockets==13.1
+
+# 数据库（A-00 用：SQLAlchemy 2.0 async + aiomysql）
+sqlalchemy[asyncio]==2.0.36
+aiomysql==0.2.0
+pymysql==1.1.1
+greenlet==3.1.1
+cryptography==43.0.1  # aiomysql 推荐带这个，caching_sha2_password 需要
