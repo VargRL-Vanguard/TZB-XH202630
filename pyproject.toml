@@ -1,0 +1,14 @@
+[tool.pytest.ini_options]
+# 把项目根目录加进 sys.path，使 `from backend.公共.xxx import yyy` 能工作
+pythonpath = ["."]
+# 默认 testpaths，避免每次都输路径
+testpaths = ["backend"]
+# 让中文目录名（如 a_用户与聊天）能被正确导入
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+# 显示更友好的输出
+addopts = "-v --tb=short --strict-markers"
+# 异步测试默认 loop scope（消除 PytestDeprecationWarning + 共享 loop 让连接池正常工作）
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
