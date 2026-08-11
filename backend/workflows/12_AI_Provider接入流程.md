@@ -17,7 +17,7 @@
 
 **输入**：3 个 AI 服务的接口文档
 
-**操作**：`backend/4_AI集成/providers/base.py`
+**操作**：`backend/d_AI集成/providers/base.py`
 ```python
 from abc import ABC, abstractmethod
 from typing import List
@@ -58,12 +58,12 @@ class BaseAIProvider(ABC):
 
 **输入**：3 个 AI 服务的官方 SDK / API 文档
 
-**操作**：`backend/4_AI集成/providers/`
+**操作**：`backend/d_AI集成/providers/`
 
 ### 2.1 chat_ai.py
 
 ```python
-from backend.4_AI集成.providers.base import BaseAIProvider
+from backend.d_AI集成.providers.base import BaseAIProvider
 
 class ChatAIProvider(BaseAIProvider):
     def __init__(self, api_key, endpoint):
@@ -91,7 +91,7 @@ class ChatAIProvider(BaseAIProvider):
 **输出**：3 个具体 provider 类
 
 **验证**：
-- [ ] 每个 provider 都能独立 `python -c "from backend.4_AI集成.providers.chat_ai import ChatAIProvider; p = ChatAIProvider(...)"`
+- [ ] 每个 provider 都能独立 `python -c "from backend.d_AI集成.providers.chat_ai import ChatAIProvider; p = ChatAIProvider(...)"`
 - [ ] mock 测试 1 个 chat 调用 → 返回 string
 
 **详细提示**：[`prompts/04_成员D_AI集成_提示词.md`](../prompts/04_成员D_AI集成_提示词.md) 第 4 节
@@ -104,12 +104,12 @@ class ChatAIProvider(BaseAIProvider):
 
 **输入**：3 个 provider 类 + 配置
 
-**操作**：`backend/4_AI集成/providers/factory.py`
+**操作**：`backend/d_AI集成/providers/factory.py`
 ```python
 import os
-from backend.4_AI集成.providers.chat_ai import ChatAIProvider
-from backend.4_AI集成.providers.path_ai import PathAIProvider
-from backend.4_AI集成.providers.suggest_ai import SuggestAIProvider
+from backend.d_AI集成.providers.chat_ai import ChatAIProvider
+from backend.d_AI集成.providers.path_ai import PathAIProvider
+from backend.d_AI集成.providers.suggest_ai import SuggestAIProvider
 
 def get_chat_provider():
     provider_name = os.getenv("AI_CHAT_PROVIDER", "openai")
@@ -141,9 +141,9 @@ def get_chat_provider():
 
 **输入**：provider 工厂
 
-**操作**：`backend/4_AI集成/services/ai_service.py`
+**操作**：`backend/d_AI集成/services/ai_service.py`
 ```python
-from backend.4_AI集成.providers.factory import get_chat_provider
+from backend.d_AI集成.providers.factory import get_chat_provider
 
 def chat_with_prompt(prompt: str, system: str = "", **kwargs) -> str:
     """
@@ -160,7 +160,7 @@ def chat_with_prompt(prompt: str, system: str = "", **kwargs) -> str:
 **输出**：3 个统一函数（chat_with_prompt / chat_with_history / embed_text）
 
 **验证**：
-- [ ] B-05 / C-04 / D-06 都能 `from backend.4_AI集成.services.ai_service import chat_with_prompt`
+- [ ] B-05 / C-04 / D-06 都能 `from backend.d_AI集成.services.ai_service import chat_with_prompt`
 - [ ] 切换 provider 不需要改业务代码
 
 **失败处理**：provider 报错 → fallback 到下一个 provider（重试 1 次）
@@ -210,7 +210,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 
 def test_chat_with_prompt():
-    with patch("backend.4_AI集成.providers.factory.get_chat_provider") as mock:
+    with patch("backend.d_AI集成.providers.factory.get_chat_provider") as mock:
         mock_provider = MagicMock()
         mock_provider.chat.return_value = "test response"
         mock.return_value = mock_provider

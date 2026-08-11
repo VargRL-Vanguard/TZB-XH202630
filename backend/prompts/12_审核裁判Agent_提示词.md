@@ -1,7 +1,7 @@
 # ⚖️ 审核裁判 Agent 提示词（D-06）
 
 > **使用对象**：D 区（AI 集成）AI 协作者
-> **关联任务**：[D-06 审核裁判 Agent](../../任务清单_4_AI集成.md#d-06)
+> **关联任务**：[D-06 审核裁判 Agent](../../任务清单_d_AI集成.md#d-06)
 > **协作方**：被 D-03 协同编排器 调用 → 决定 pass/retry/fail
 
 ---
@@ -19,7 +19,7 @@
 ## 2. 对外契约
 
 ```python
-# backend/4_AI集成/agents/auditor.py
+# backend/d_AI集成/agents/auditor.py
 from typing import Literal
 from pydantic import BaseModel
 
