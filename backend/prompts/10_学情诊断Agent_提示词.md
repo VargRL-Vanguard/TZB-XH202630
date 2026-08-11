@@ -1,7 +1,7 @@
 # 🧠 学情诊断 Agent 提示词（B-05）
 
 > **使用对象**：B 区（学情数据）AI 协作者
-> **关联任务**：[B-05 学情诊断 Agent](../../任务清单_2_学情数据.md#b-05)
+> **关联任务**：[B-05 学情诊断 Agent](../../任务清单_b_学情数据.md#b-05)
 > **协作方**：被 D-03 协同编排器 调用 → 输出交给 C-04 领域专家
 
 ---
@@ -19,7 +19,7 @@
 ## 2. 对外契约（必须严格遵守）
 
 ```python
-# backend/2_学情数据/agents/diagnosis.py
+# backend/b_学情数据/agents/diagnosis.py
 from typing import List, Dict
 from pydantic import BaseModel
 
@@ -88,7 +88,7 @@ def diagnose(studentId: str, kp_list: List[str]) -> DiagnosisResult:
 
 ## 5. 与其他 Agent 的接口
 
-- **被调用方**：D-03 协同编排器（`backend/4_AI集成/orchestrator/orchestrate`）
+- **被调用方**：D-03 协同编排器（`backend/d_AI集成/orchestrator/orchestrate`）
 - **下游调用方**：C-04 领域专家 Agent（拿你的 DiagnosisResult 去生成资源）
 - **事件推送**：通过 A-04 WebSocket 推 `agent.thinking` → `agent.result`
 

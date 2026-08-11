@@ -11,7 +11,7 @@
 
 **输入**：`fastapi` / `flask-socketio` 等 WebSocket 框架
 
-**操作**：`backend/1_用户与聊天/ws/manager.py`
+**操作**：`backend/a_用户与聊天/ws/manager.py`
 ```python
 class WSManager:
     def __init__(self):
@@ -44,9 +44,9 @@ manager = WSManager()
 
 **输入**：manager 实例
 
-**操作**：`backend/1_用户与聊天/ws/emit.py`
+**操作**：`backend/a_用户与聊天/ws/emit.py`
 ```python
-from backend.1_用户与聊天.ws.manager import manager
+from backend.a_用户与聊天.ws.manager import manager
 import json
 from datetime import datetime
 
@@ -83,7 +83,7 @@ def _emit(event_type, traceId, agentName, step, payload):
 **输出**：5 个公开函数 + 1 个内部 `_emit`
 
 **验证**：
-- [ ] B / C / D 都能 `from backend.1_用户与聊天.ws.emit import emit_agent_xxx`
+- [ ] B / C / D 都能 `from backend.a_用户与聊天.ws.emit import emit_agent_xxx`
 - [ ] 每条事件都有 type / traceId / agentName / ts
 
 ---
@@ -92,7 +92,7 @@ def _emit(event_type, traceId, agentName, step, payload):
 
 **输入**：manager + emit
 
-**操作**：`backend/1_用户与聊天/ws/router.py`
+**操作**：`backend/a_用户与聊天/ws/router.py`
 ```python
 @router.websocket("/ws/{userId}")
 async def websocket_endpoint(ws: WebSocket, userId: str):
@@ -117,7 +117,7 @@ async def websocket_endpoint(ws: WebSocket, userId: str):
 
 **输入**：步骤 A3
 
-**操作**：`backend/1_用户与聊天/ws/event_store.py`（用 Redis）
+**操作**：`backend/a_用户与聊天/ws/event_store.py`（用 Redis）
 ```python
 # key: traceId
 # value: List[event]
@@ -147,7 +147,7 @@ def replay_events(traceId, ws):
 
 **操作**：在 B-05 / C-04 / D-06 的**每个函数入口**都加：
 ```python
-from backend.1_用户与聊天.ws.emit import (
+from backend.a_用户与聊天.ws.emit import (
     emit_agent_start, emit_agent_thinking, emit_agent_result
 )
 ```
@@ -179,7 +179,7 @@ from backend.1_用户与聊天.ws.emit import (
 
 **操作**：每个 Agent 在 `emit_agent_result` 之后调：
 ```python
-from backend.4_AI集成.models.agent_log import log_agent_event
+from backend.d_AI集成.models.agent_log import log_agent_event
 log_agent_event(traceId, agentName, "result", result.dict())
 ```
 

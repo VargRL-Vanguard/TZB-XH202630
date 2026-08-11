@@ -9,10 +9,10 @@
 
 | 成员 | 分支名 | 目录 |
 | --- | --- | --- |
-| A | `feat/A-用户与聊天` | `1_用户与聊天/` + `公共/` |
-| B | `feat/B-学情数据` | `2_学情数据/` |
-| C | `feat/C-学习内容` | `3_学习内容/` |
-| D | `feat/D-AI集成` | `4_AI集成/` + `prompts/` + `workflows/` |
+| A | `feat/A-用户与聊天` | `a_用户与聊天/` + `公共/` |
+| B | `feat/B-学情数据` | `b_学情数据/` |
+| C | `feat/C-学习内容` | `c_学习内容/` |
+| D | `feat/D-AI集成` | `d_AI集成/` + `prompts/` + `workflows/` |
 
 **D 区** 特殊：负责 `prompts/` 和 `workflows/` 目录的合并（其他区可新增但 D 负责汇总）
 
@@ -52,16 +52,16 @@ git status
 git diff
 
 # 2. 只 add 自己区的文件
-git add backend/1_用户与聊天/  # A
-git add backend/2_学情数据/    # B
-git add backend/3_学习内容/    # C
-git add backend/4_AI集成/      # D
+git add backend/a_用户与聊天/  # A
+git add backend/b_学情数据/    # B
+git add backend/c_学习内容/    # C
+git add backend/d_AI集成/      # D
 
 # 3. 同时 add 自己那份任务清单
-git add backend/任务清单_1_用户与聊天.md  # A
-git add backend/任务清单_2_学情数据.md    # B
-git add backend/任务清单_3_学习内容.md    # C
-git add backend/任务清单_4_AI集成.md      # D
+git add backend/任务清单_a_用户与聊天.md  # A
+git add backend/任务清单_b_学情数据.md    # B
+git add backend/任务清单_c_学习内容.md    # C
+git add backend/任务清单_d_AI集成.md      # D
 ```
 
 **输出**：暂存区只有自己区的文件
@@ -144,12 +144,12 @@ git push origin feat/<你的区>
    - 任务 ID：A-00
    - 标题：自有数据层 + User 模型
    - 负责人：@A
-   - 关联任务清单：backend/任务清单_1_用户与聊天.md#a-00
+   - 关联任务清单：backend/任务清单_a_用户与聊天.md#a-00
 
    ## 改动
-   - 新增 backend/1_用户与聊天/db.py
-   - 新增 backend/1_用户与聊天/models/user.py
-   - 更新 backend/任务清单_1_用户与聊天.md（A-00 状态改为 ✅）
+   - 新增 backend/a_用户与聊天/db.py
+   - 新增 backend/a_用户与聊天/models/user.py
+   - 更新 backend/任务清单_a_用户与聊天.md（A-00 状态改为 ✅）
 
    ## 验证
    - [x] 本地跑通 quality_check（如果有）
@@ -157,7 +157,7 @@ git push origin feat/<你的区>
    - [x] 任务清单已更新
 
    ## 影响范围
-   - 只影响 backend/1_用户与聊天/
+   - 只影响 backend/a_用户与聊天/
    - 公共/ 未变更
    ```
 7. 指定 reviewer = 队长 + 相关成员

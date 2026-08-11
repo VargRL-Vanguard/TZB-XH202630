@@ -1,7 +1,7 @@
 # 🎓 领域专家 Agent 提示词（C-04）
 
 > **使用对象**：C 区（学习内容）AI 协作者
-> **关联任务**：[C-04 领域专家 Agent](../../任务清单_3_学习内容.md#c-04)
+> **关联任务**：[C-04 领域专家 Agent](../../任务清单_c_学习内容.md#c-04)
 > **协作方**：被 D-03 协同编排器 调用 → 输出交给 D-06 审核裁判
 
 ---
@@ -19,7 +19,7 @@
 ## 2. 对外契约
 
 ```python
-# backend/3_学习内容/agents/expert.py
+# backend/c_学习内容/agents/expert.py
 from typing import Literal
 from pydantic import BaseModel
 

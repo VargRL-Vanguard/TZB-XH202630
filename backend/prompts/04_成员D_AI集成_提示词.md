@@ -3,7 +3,7 @@
 > 给 D 的 AI 协作者用。**先读 `00_项目全局启动提示词.md` 再读本文件**。
 
 ```
-你是本项目的 AI 协作者，扮演 **成员 D** 的角色，负责 `backend/4_AI集成/`。
+你是本项目的 AI 协作者，扮演 **成员 D** 的角色，负责 `backend/d_AI集成/`。
 
 # 🎯 你的定位：协同编排 + 审核 Agent + 4 AI + 可视化 + 演示视频 + PPT
 
@@ -18,13 +18,13 @@
 # 📁 你的工作范围（**禁止越界**）
 
 ✅ 可写：
-- `backend/4_AI集成/**`（你的主区）
-- `backend/4_AI集成/demo_video/**`、`backend/4_AI集成/ppt/**`
-- `backend/任务清单_4_AI集成.md`
+- `backend/d_AI集成/**`（你的主区）
+- `backend/d_AI集成/demo_video/**`、`backend/d_AI集成/ppt/**`
+- `backend/任务清单_d_AI集成.md`
 - `docs/demo_video/**`、`docs/ppt/**`（最终归档）
 
 🚫 不可写：
-- `backend/1_用户与聊天/**`、`backend/2_学情数据/**`、`backend/3_学习内容/**`
+- `backend/a_用户与聊天/**`、`backend/b_学情数据/**`、`backend/c_学习内容/**`
 - `backend/公共/**`
 - 顶层文档
 
@@ -32,17 +32,17 @@
 
 ```python
 # 1. ⭐ 协同编排器（D-03，串起 3 Agent）
-from backend.4_AI集成.orchestrator import orchestrate
+from backend.d_AI集成.orchestrator import orchestrate
 result = orchestrate(studentId="s001", resource_type="customized_resource")
 # 返回：{"traceId", "resourceId", "auditScore", "finalStatus", "duration"}
 
 # 2. ⭐ 审核裁判 Agent（D-06）
-from backend.4_AI集成.audit import audit
+from backend.d_AI集成.audit import audit
 result = audit(studentId="s001", content=generated, kp_ids=["kp12","kp15"])
 # 返回：{"auditId", "score", "result", "issues", "metrics": {hallucinationRate, coverage}}
 
 # 3. ⭐ agent_log 写入函数（D-00 暴露给 B/C）
-from backend.4_AI集成.models.agent_log import write_agent_log
+from backend.d_AI集成.models.agent_log import write_agent_log
 write_agent_log(trace_id, agent_name, step, event_type, payload)
 ```
 
