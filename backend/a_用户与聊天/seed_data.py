@@ -1,32 +1,27 @@
 """
 A-00 种子数据：3 个测试用户 + 2 个学习者画像。
-密码用 SHA256 临时占位（A-01 任务会换成 bcrypt）。
+**密码**：统一 Test@1234（A-01 实现了 bcrypt，所以这里也用 bcrypt 哈希）
 
-用法：
+**用法**：
     cd D:\\TZB\\TZB-XH202630
     python -m backend.a_用户与聊天.seed_data
 """
 import asyncio
-import hashlib
 
 from sqlalchemy import select
 
 from backend.a_用户与聊天.db import get_session
+from backend.a_用户与聊天.auth.passwords import hash_password
 from backend.a_用户与聊天.models.user import User
 from backend.a_用户与聊天.models.learner_profile import LearnerProfile
 
 
-def _fake_hash(pwd: str) -> str:
-    """临时 SHA256 占位（**生产前必须换成 bcrypt**，A-01 任务实现）。"""
-    return hashlib.sha256(pwd.encode()).hexdigest()
-
-
-# 测试账号：用户名 / 密码统一 Test@1234
+# 测试账号：用户名 / 密码统一 Test@1234（明文，在 main() 里 bcrypt 哈希）
 SEED_USERS = [
     {
         "id": "u001",
         "username": "student001",
-        "password_hash": _fake_hash("Test@1234"),
+        "password": "Test@1234",
         "name": "张三",
         "role": "student",
         "profile": {
@@ -40,24 +35,24 @@ SEED_USERS = [
     {
         "id": "u002",
         "username": "student002",
-        "password_hash": _fake_hash("Test@1234"),
+        "password": "Test@1234",
         "name": "李四",
         "role": "student",
         "profile": {
-            "education": "硕士",
-            "major": "计算机科学",
+            "education": "本科",
+            "major": "软件工程",
             "theory_test_score": 85,
-            "weak_kps": ["kp22"],
-            "strong_kps": ["kp01", "kp02", "kp05"],
+            "weak_kps": ["kp08"],
+            "strong_kps": ["kp01", "kp02", "kp03"],
         },
     },
     {
         "id": "t001",
         "username": "teacher001",
-        "password_hash": _fake_hash("Test@1234"),
+        "password": "Test@1234",
         "name": "王老师",
         "role": "teacher",
-        "profile": None,  # 教师无画像
+        "profile": None,
     },
 ]
 
@@ -78,7 +73,7 @@ async def main() -> None:
             user = User(
                 id=u["id"],
                 username=u["username"],
-                password_hash=u["password_hash"],
+                password_hash=hash_password(u["password"]),  # A-01 bcrypt 哈希
                 name=u["name"],
                 role=u["role"],
             )
