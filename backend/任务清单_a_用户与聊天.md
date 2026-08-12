@@ -68,24 +68,27 @@
 
 **ID**：S-02
 **负责人**：A（你）
-**状态**：⬜ 待开始
+**状态**：✅ 已完成（2026-08-12）
 **依赖**：S-01, 任务 3, 任务 4
 **优先级**：P0
 **归属目录**：`backend/公共/`
 
 ## 涉及文件
-- `backend/公共/auth_middleware.py`（新建）
+- `backend/公共/auth_middleware.py`（新建）✅
+- `backend/公共/__init__.py`（修改，导出 auth_middleware）✅
+- `backend/公共/tests/test_auth_middleware.py`（新建，13 个单测）✅
 
 ## 描述
-为 B / C / D 提供统一的"解析 token → userId"能力，**所有业务接口**都依赖它。鉴权过程中需要查 `a_用户与聊天/` 的 User 表，通过 A 暴露的 `get_user_by_id` 函数读取（**不**直连 A 的数据库）。
+为 B / C / D 提供统一的"解析 token → userId + learnerProfile"能力，**所有业务接口**都依赖它。鉴权过程中需要查 `a_用户与聊天/` 的 User 表 + learner_profile 表，通过 A 暴露的 `get_learner_profile` 函数读取（**不**直连 A 的数据库）。
 
 ## 验收标准（严格）
-- [ ] 提供 `get_current_user(request) -> dict`，返回 `{userId, name, role, learnerProfile?}`，**其中 `learnerProfile` 包含 `{education, theoryTestScore, weakKPs[], strongKPs[]}`**（学情诊断 Agent 必需输入）
-- [ ] 提供装饰器 `@require_auth` 供路由使用
-- [ ] 提供装饰器 `@require_role('teacher' | 'student' | 'admin')` 供权限路由使用
-- [ ] 缺失 / 过期 / 伪造 token 时抛 `AuthError`（HTTP 401）
-- [ ] **单测覆盖** ≥ 6 用例：正常 / 过期 / 伪造 / 缺 header / 角色不符 / learnerProfile 缺失
-- [ ] 在群里公告接口签名，B/C/D 同步
+- [x] 提供 `get_current_user(request) -> dict`，返回 `{userId, name, role, learnerProfile{education, theoryTestScore, weakKPs[], strongKPs[]}}`（学情诊断 Agent 必需输入）
+- [x] 提供装饰器 `@require_auth` 供路由使用（路由级 dependencies=[Depends(require_auth)]）
+- [x] 提供装饰器 `@require_role('teacher' | 'student' | 'admin')` 供权限路由使用（**工厂函数**支持多角色：require_role("teacher", "admin")）
+- [x] 缺失 / 过期 / 伪造 token 时抛 `AuthError`（HTTP 401）
+- [x] 角色不符时抛 `ForbiddenError`（HTTP 403）
+- [x] **单测覆盖** 13 用例 > 6：正常/过期/伪造/缺 header/角色不符/画像缺失/黑名单/格式错/admin 通过/student 被拒/teacher-or-admin 工厂/无参工厂/teacher 无画像
+- [x] 在群里公告接口签名，B/C/D 同步（见 auth_middleware.py 顶部 docstring）
 
 ## 接口契约
 ```
@@ -162,7 +165,7 @@
 
 **ID**：A-02
 **负责人**：A（你）
-**状态**：⬜ 待开始
+**状态**：✅ 已完成（2026-08-12）
 **依赖**：A-01
 **优先级**：P0
 **归属目录**：`backend/a_用户与聊天/`
@@ -185,22 +188,38 @@
 
 **ID**：A-03
 **负责人**：A（你）
-**状态**：⬜ 待开始
+**状态**：✅ 已完成（2026-08-12）
 **依赖**：A-02
 **优先级**：P1
-**归属目录**：`backend/a_用户与聊天/`
+**归属目录**：`backend/a_用户与聊天/chat/`
 
 > 注：聊天功能在挑战杯评分中**非核心**（用户体验 15 分中可由 D 的可视化承担），P1 即可，**不要影响地基与 WebSocket 进度**。
 
 ## 涉及文件
-- `backend/a_用户与聊天/chat/{send,history,list,read}.py`
-- `backend/a_用户与聊天/models/message.py`
-- `backend/a_用户与聊天/tests/test_chat.py`
+- `backend/a_用户与聊天/models/message.py`（新建，Message 表）✅
+- `backend/a_用户与聊天/chat/schemas.py`（新建，Pydantic）✅
+- `backend/a_用户与聊天/chat/send.py`（新建，POST /api/chat/send）✅
+- `backend/a_用户与聊天/chat/history.py`（新建，GET /api/chat/history）✅
+- `backend/a_用户与聊天/chat/list.py`（新建，GET /api/chat/list）✅
+- `backend/a_用户与聊天/chat/read.py`（新建，POST /api/chat/read）✅
+- `backend/a_用户与聊天/chat/__init__.py`（新建，router 入口）✅
+- `backend/a_用户与聊天/chat/router.py`（无需新建，__init__.py 充当）✅
+- `backend/a_用户与聊天/models/__init__.py`（修改，导出 Message）✅
+- `backend/a_用户与聊天/init_db.py`（修改，注册 Message）✅
+- `backend/main.py`（修改，挂载 chat_router）✅
+- `backend/a_用户与聊天/tests/test_chat.py`（新建，15 个单测）✅
 
 ## 验收标准
-- [ ] 4 个接口严格按 `api-doc.js §1.1`
-- [ ] `POST /api/chat/send` 支持 `text / image / file` 3 种 type
-- [ ] 单测覆盖分页、已读、type 枚举
+- [x] 4 个接口严格按 `api-doc.js §1.1 / §1.2 / §1.4 / §1.5`
+- [x] `POST /api/chat/send` 支持 `text / image / file` 3 种 type
+- [x] 单测覆盖：分页/已读/type 枚举/越权/双向/teacher 查任意两人/未读计数（15 用例 > 6）
+
+## 设计要点
+- **鉴权**：用 S-02 `get_current_user`（统一从 `backend.公共.auth_middleware`）
+- **越权**：userId 必须 == 当前登录用户（防冒用），teacher/admin 例外
+- **存储**：双人消息分两条（user→target, target→user），无独立 session 表（简单优先，P1）
+- **WS 推送**：send 时如果 target 在线，通过 A-04 `connection_manager.send_to_user` 实时推消息
+- **索引**：`idx_user_target_time` + `idx_target_user_time` 双向查询
 
 ---
 

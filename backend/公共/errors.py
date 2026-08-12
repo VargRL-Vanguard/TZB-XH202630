@@ -22,6 +22,13 @@ class AuthError(BizError):
         super().__init__(message, code=401, data=data)
 
 
+class ForbiddenError(BizError):
+    """鉴权通过但越权：登录了但没权限访问该资源。HTTP 403。"""
+
+    def __init__(self, message: str = "无权访问该资源", data: Optional[dict] = None):
+        super().__init__(message, code=403, data=data)
+
+
 class NotFoundError(BizError):
     """资源不存在。HTTP 404。"""
 

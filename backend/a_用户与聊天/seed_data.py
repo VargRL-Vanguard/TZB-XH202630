@@ -54,6 +54,14 @@ SEED_USERS = [
         "role": "teacher",
         "profile": None,
     },
+    {
+        "id": "a001",
+        "username": "admin001",
+        "password": "Test@1234",
+        "name": "系统管理员",
+        "role": "admin",
+        "profile": None,
+    },
 ]
 
 
