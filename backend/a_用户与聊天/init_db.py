@@ -18,6 +18,7 @@ from backend.a_用户与聊天.config import a_config
 from backend.a_用户与聊天.models.base import Base  # noqa: F401
 from backend.a_用户与聊天.models.user import User  # noqa: F401
 from backend.a_用户与聊天.models.learner_profile import LearnerProfile  # noqa: F401
+from backend.a_用户与聊天.models.message import Message  # noqa: F401
 
 
 def _parse_url(url: str) -> dict:
