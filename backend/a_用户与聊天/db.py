@@ -118,6 +118,9 @@ async def upsert_learner_profile(
     """
     A-02 任务使用 + B-05 学情诊断后回写 weak_kps。
     不存在则插入，存在则更新。
+
+    **关键**：在**同一个** session 内读出最终值，避免嵌套 session 时的
+    MySQL REPEATABLE READ 快照问题（嵌套 session 看不到外层 flush 的数据）。
     """
     from backend.a_用户与聊天.models.learner_profile import LearnerProfile
 
@@ -147,5 +150,15 @@ async def upsert_learner_profile(
                 lp.weak_kps = weak_kps
             if strong_kps is not None:
                 lp.strong_kps = strong_kps
+
+        # 关键：flush + 立即从同一 session 读，避免嵌套 session 快照问题
         await session.flush()
-        return await get_learner_profile(user_id)
+        await session.refresh(lp)
+        return {
+            "education": lp.education,
+            "major": lp.major,
+            "theoryTestScore": lp.theory_test_score,
+            "weakKPs": lp.weak_kps or [],
+            "strongKPs": lp.strong_kps or [],
+            "updatedAt": lp.updated_at.isoformat() if lp.updated_at else None,
+        }

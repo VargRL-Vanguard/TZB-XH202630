@@ -21,6 +21,7 @@ from backend.公共.logger import get_logger
 
 # 路由
 from backend.a_用户与聊天.auth.router import router as auth_router
+from backend.a_用户与聊天.user.router import router as user_router
 from backend.a_用户与聊天.ws.server import router as ws_router, heartbeat_cleanup_task
 
 log = get_logger(__name__)
@@ -69,6 +70,9 @@ app.add_middleware(
 
 # A-01 鉴权 3 接口（/api/auth/register, /api/auth/login, /api/auth/logout）
 app.include_router(auth_router, prefix="/api/auth", tags=["A-01 鉴权"])
+
+# A-02 用户信息 + 学习者画像（/api/user/info, /api/user/profile）
+app.include_router(user_router, prefix="/api/user", tags=["A-02 用户/画像"])
 
 # A-04 WebSocket（/ws）
 app.include_router(ws_router, tags=["A-04 WebSocket"])
