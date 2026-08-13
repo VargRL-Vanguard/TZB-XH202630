@@ -23,15 +23,21 @@ _loguru_logger.add(
 )
 
 # 2. 文件输出（生产用，按天轮转）
-_loguru_logger.add(
-    "logs/app_{time:YYYY-MM-DD}.log",
-    format=(
+def _file_format(record):
+    """文件日志格式函数：给 record 补 trace_id 默认值，避免 KeyError。"""
+    record["extra"].setdefault("trace_id", "-")
+    return (
         "{time:YYYY-MM-DD HH:mm:ss.SSS} | "
         "{level: <8} | "
         "{name}:{function}:{line} | "
-        "trace_id={extra[trace_id]} | "
-        "{message}"
-    ),
+        f"trace_id={record['extra']['trace_id']} | "
+        "{message}\n"
+    )
+
+
+_loguru_logger.add(
+    "logs/app_{time:YYYY-MM-DD}.log",
+    format=_file_format,
     level="DEBUG",
     rotation="00:00",
     retention="30 days",

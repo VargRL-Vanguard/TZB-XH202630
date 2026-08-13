@@ -1,0 +1,84 @@
+{
+  "resource_id": "res-f5df32f433c147fc",
+  "student_id": "demo-mid-002",
+  "type": "tiered_quiz",
+  "title": "kp_function_design kp_oop_basics 核心概念",
+  "content": {
+    "title": "kp_function_design kp_oop_basics 核心概念",
+    "questions": [
+      {
+        "question": "kp_oop_basics",
+        "options": [
+          "基础语法",
+          "边界条件",
+          "异常分支",
+          "按步骤执行"
+        ],
+        "answer": "A",
+        "explanation": "[mock-chunk] 关于知识点 kp_oop_basics 的核心概念：用于演示。\n前置：掌握基础语法。\n操作：按步骤执行，注意边界条件。\n易错点：忽略异常分支。",
+        "difficulty": 2,
+        "kp_id": "kp_oop_basics"
+      },
+      {
+        "question": "kp_function_design",
+        "options": [
+          "基础语法",
+          "边界条件",
+          "异常分支",
+          "按步骤执行"
+        ],
+        "answer": "A",
+        "explanation": "[mock-chunk] 关于知识点 kp_function_design 的核心概念：用于演示。\n前置：掌握基础语法。\n操作：按步骤执行，注意边界条件。\n易错点：忽略异常分支。",
+        "difficulty": 3,
+        "kp_id": "kp_function_design"
+      },
+      {
+        "question": "kp_oop_basics",
+        "options": [
+          "基础语法",
+          "边界条件",
+          "异常分支",
+          "按步骤执行"
+        ],
+        "answer": "A",
+        "explanation": "[mock-chunk] 关于知识点 kp_oop_basics 的核心概念：用于演示。\n前置：掌握基础语法。\n操作：按步骤执行，注意边界条件。\n易错点：忽略异常分支。",
+        "difficulty": 4,
+        "kp_id": "kp_oop_basics"
+      },
+      {
+        "question": "kp_function_design",
+        "options": [
+          "基础语法",
+          "边界条件",
+          "异常分支",
+          "按步骤执行"
+        ],
+        "answer": "A",
+        "explanation": "[mock-chunk] 关于知识点 kp_function_design 的核心概念：用于演示。\n前置：掌握基础语法。\n操作：按步骤执行，注意边界条件。\n易错点：忽略异常分支。",
+        "difficulty": 5,
+        "kp_id": "kp_function_design"
+      }
+    ]
+  },
+  "kp_coverage": [
+    "kp_function_design",
+    "kp_oop_basics"
+  ],
+  "cited_chunks": [
+    "mock-kp_function_design-0",
+    "mock-kp_function_design-1",
+    "mock-kp_function_design-2",
+    "mock-kp_oop_basics-0",
+    "mock-kp_oop_basics-1",
+    "mock-kp_oop_basics-2"
+  ],
+  "difficulty": 3,
+  "trigger_reason": "demo_sample",
+  "source_trace_id": "trace-536ef96845c1",
+  "metrics": {
+    "coverage": 1.0,
+    "hallucination": 0.0,
+    "matchAccuracy": 1.0
+  },
+  "generated_at": "2026-08-13T17:21:17.624600+00:00"
+}
