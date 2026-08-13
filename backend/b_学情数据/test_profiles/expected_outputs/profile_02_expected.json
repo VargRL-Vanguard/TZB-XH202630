@@ -1,0 +1,38 @@
+{
+  "profile_id": "p-002",
+  "expected_weak_kps": [
+    {
+      "kp_id": "kp12",
+      "severity": "high",
+      "reason": "坐标系变换是核心难点，高职学生普遍薄弱"
+    },
+    {
+      "kp_id": "kp12c",
+      "severity": "high",
+      "reason": "逆运动学概念抽象，测试得分低于50"
+    },
+    {
+      "kp_id": "kp22",
+      "severity": "high",
+      "reason": "模拟量信号处理实操经验不足"
+    },
+    {
+      "kp_id": "kp22a",
+      "severity": "medium",
+      "reason": "梯形图编程基础不牢"
+    },
+    {
+      "kp_id": "kp04c",
+      "severity": "medium",
+      "reason": "编码器原理理解不深"
+    },
+    {
+      "kp_id": "kp05b",
+      "severity": "medium",
+      "reason": "工业以太网协议接触少"
+    }
+  ],
+  "expected_strong_kps": ["kp01"],
+  "expected_confidence_range": [0.60, 0.80],
+  "expected_gap_count_range": [4, 8]
+}

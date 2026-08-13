@@ -16,7 +16,7 @@ def test_get_logger_default():
 
 def test_get_logger_with_module_name():
     """带模块名"""
-    log = get_logger("backend.2_学情数据.agents.diagnosis")
+    log = get_logger("backend.b_学情数据.agents.diagnosis")
     assert log is not None
 
 

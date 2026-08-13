@@ -1,0 +1,114 @@
+{
+  "profile_id": "p-001",
+  "label": "本科应届生",
+  "learnerProfile": {
+    "education": "本科",
+    "major": "智能制造工程",
+    "theoryTestScore": 82,
+    "weakKPs": ["kp12d", "kp22c"],
+    "strongKPs": ["kp01", "kp02", "kp03", "kp15"]
+  },
+  "activityHistory": [
+    {
+      "activityType": "test",
+      "resourceName": "工业机器人坐标系单元测试",
+      "status": "completed",
+      "progress": 100,
+      "score": 85,
+      "kpTags": ["kp02", "kp12"],
+      "startTime": "2026-08-12T14:30:00",
+      "durationMinutes": 45
+    },
+    {
+      "activityType": "course",
+      "resourceName": "D-H参数法建模精讲",
+      "status": "completed",
+      "progress": 100,
+      "score": 78,
+      "kpTags": ["kp12d", "kp12c"],
+      "startTime": "2026-08-11T09:00:00",
+      "durationMinutes": 60
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "PLC梯形图编程练习",
+      "status": "completed",
+      "progress": 100,
+      "score": 88,
+      "kpTags": ["kp22a", "kp03"],
+      "startTime": "2026-08-10T16:20:00",
+      "durationMinutes": 50
+    },
+    {
+      "activityType": "test",
+      "resourceName": "顺控程序SFC概念测验",
+      "status": "completed",
+      "progress": 100,
+      "score": 68,
+      "kpTags": ["kp22c"],
+      "startTime": "2026-08-09T10:15:00",
+      "durationMinutes": 30
+    },
+    {
+      "activityType": "course",
+      "resourceName": "工业机器人路径规划",
+      "status": "completed",
+      "progress": 100,
+      "score": 90,
+      "kpTags": ["kp15"],
+      "startTime": "2026-08-08T13:00:00",
+      "durationMinutes": 55
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "传感器选型综合实训",
+      "status": "completed",
+      "progress": 100,
+      "score": 86,
+      "kpTags": ["kp04", "kp04a"],
+      "startTime": "2026-08-06T15:00:00",
+      "durationMinutes": 70
+    },
+    {
+      "activityType": "test",
+      "resourceName": "工业机器人基础理论测验",
+      "status": "completed",
+      "progress": 100,
+      "score": 92,
+      "kpTags": ["kp01", "kp01d"],
+      "startTime": "2026-08-05T09:30:00",
+      "durationMinutes": 40
+    },
+    {
+      "activityType": "course",
+      "resourceName": "坐标系变换与齐次矩阵",
+      "status": "completed",
+      "progress": 100,
+      "score": 80,
+      "kpTags": ["kp12", "kp02"],
+      "startTime": "2026-08-03T14:00:00",
+      "durationMinutes": 65
+    },
+    {
+      "activityType": "discussion",
+      "resourceName": "离线编程与路径优化讨论",
+      "status": "completed",
+      "progress": 100,
+      "score": null,
+      "kpTags": ["kp15", "kp18"],
+      "startTime": "2026-08-01T19:00:00",
+      "durationMinutes": 35
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "PLC程序调试与故障诊断",
+      "status": "in-progress",
+      "progress": 60,
+      "score": null,
+      "kpTags": ["kp22d"],
+      "startTime": "2026-07-30T16:30:00",
+      "durationMinutes": 40
+    }
+  ],
+  "interactionGoal": "希望深入学习工业机器人离线编程与路径规划，准备智能制造工程师认证"
+}

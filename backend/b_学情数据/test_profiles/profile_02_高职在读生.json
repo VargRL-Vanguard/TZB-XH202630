@@ -1,0 +1,114 @@
+{
+  "profile_id": "p-002",
+  "label": "高职在读生",
+  "learnerProfile": {
+    "education": "高职",
+    "major": "工业机器人技术",
+    "theoryTestScore": 58,
+    "weakKPs": ["kp12", "kp12c", "kp22", "kp22a", "kp04c", "kp05b"],
+    "strongKPs": ["kp01"]
+  },
+  "activityHistory": [
+    {
+      "activityType": "test",
+      "resourceName": "坐标系变换单元测验",
+      "status": "completed",
+      "progress": 100,
+      "score": 48,
+      "kpTags": ["kp12"],
+      "startTime": "2026-08-12T10:00:00",
+      "durationMinutes": 35
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "逆运动学基础练习",
+      "status": "completed",
+      "progress": 100,
+      "score": 52,
+      "kpTags": ["kp12c"],
+      "startTime": "2026-08-11T14:30:00",
+      "durationMinutes": 40
+    },
+    {
+      "activityType": "course",
+      "resourceName": "工业机器人入门基础",
+      "status": "completed",
+      "progress": 100,
+      "score": 70,
+      "kpTags": ["kp01"],
+      "startTime": "2026-08-10T09:00:00",
+      "durationMinutes": 45
+    },
+    {
+      "activityType": "test",
+      "resourceName": "模拟量信号处理小测",
+      "status": "completed",
+      "progress": 100,
+      "score": 45,
+      "kpTags": ["kp22"],
+      "startTime": "2026-08-09T15:00:00",
+      "durationMinutes": 30
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "梯形图编程入门练习",
+      "status": "completed",
+      "progress": 100,
+      "score": 58,
+      "kpTags": ["kp22a"],
+      "startTime": "2026-08-08T13:30:00",
+      "durationMinutes": 50
+    },
+    {
+      "activityType": "course",
+      "resourceName": "编码器原理与应用",
+      "status": "in-progress",
+      "progress": 65,
+      "score": null,
+      "kpTags": ["kp04c"],
+      "startTime": "2026-08-07T10:30:00",
+      "durationMinutes": 35
+    },
+    {
+      "activityType": "test",
+      "resourceName": "工业以太网协议测验",
+      "status": "completed",
+      "progress": 100,
+      "score": 50,
+      "kpTags": ["kp05b"],
+      "startTime": "2026-08-05T14:00:00",
+      "durationMinutes": 25
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "PLC数字量IO接线实训",
+      "status": "completed",
+      "progress": 100,
+      "score": 62,
+      "kpTags": ["kp03b"],
+      "startTime": "2026-08-03T16:00:00",
+      "durationMinutes": 60
+    },
+    {
+      "activityType": "course",
+      "resourceName": "PLC工作原理基础",
+      "status": "completed",
+      "progress": 100,
+      "score": 55,
+      "kpTags": ["kp03"],
+      "startTime": "2026-08-01T09:30:00",
+      "durationMinutes": 40
+    },
+    {
+      "activityType": "discussion",
+      "resourceName": "传感器分类学习讨论",
+      "status": "in-progress",
+      "progress": 40,
+      "score": null,
+      "kpTags": ["kp04"],
+      "startTime": "2026-07-30T18:00:00",
+      "durationMinutes": 30
+    }
+  ],
+  "interactionGoal": "需要从基础补起，希望获得适合高职层次的入门学习资源"
+}

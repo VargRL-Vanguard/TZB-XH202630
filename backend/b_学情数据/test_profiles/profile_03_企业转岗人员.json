@@ -1,0 +1,114 @@
+{
+  "profile_id": "p-003",
+  "label": "企业转岗人员",
+  "learnerProfile": {
+    "education": "本科",
+    "major": "机械设计制造及其自动化",
+    "theoryTestScore": 55,
+    "weakKPs": ["kp03", "kp22", "kp22b", "kp05", "kp05a", "kp12c"],
+    "strongKPs": ["kp01d", "kp04", "kp06b"]
+  },
+  "activityHistory": [
+    {
+      "activityType": "exercise",
+      "resourceName": "气动执行元件调试实操",
+      "status": "completed",
+      "progress": 100,
+      "score": 88,
+      "kpTags": ["kp06b"],
+      "startTime": "2026-08-12T09:00:00",
+      "durationMinutes": 80
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "传感器选型与接线实操",
+      "status": "completed",
+      "progress": 100,
+      "score": 85,
+      "kpTags": ["kp04", "kp04a"],
+      "startTime": "2026-08-11T14:00:00",
+      "durationMinutes": 65
+    },
+    {
+      "activityType": "test",
+      "resourceName": "PLC工作原理理论测验",
+      "status": "completed",
+      "progress": 100,
+      "score": 48,
+      "kpTags": ["kp03"],
+      "startTime": "2026-08-10T10:30:00",
+      "durationMinutes": 35
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "机器人本体结构拆装实操",
+      "status": "completed",
+      "progress": 100,
+      "score": 90,
+      "kpTags": ["kp01d"],
+      "startTime": "2026-08-09T13:30:00",
+      "durationMinutes": 90
+    },
+    {
+      "activityType": "test",
+      "resourceName": "模拟量信号处理理论测验",
+      "status": "completed",
+      "progress": 100,
+      "score": 42,
+      "kpTags": ["kp22"],
+      "startTime": "2026-08-08T15:00:00",
+      "durationMinutes": 30
+    },
+    {
+      "activityType": "course",
+      "resourceName": "STL/ST文本编程入门",
+      "status": "in-progress",
+      "progress": 55,
+      "score": null,
+      "kpTags": ["kp22b"],
+      "startTime": "2026-08-07T09:30:00",
+      "durationMinutes": 45
+    },
+    {
+      "activityType": "test",
+      "resourceName": "工业通信网络分层测验",
+      "status": "completed",
+      "progress": 100,
+      "score": 50,
+      "kpTags": ["kp05"],
+      "startTime": "2026-08-05T14:30:00",
+      "durationMinutes": 25
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "Modbus协议调试实操",
+      "status": "completed",
+      "progress": 100,
+      "score": 75,
+      "kpTags": ["kp05a"],
+      "startTime": "2026-08-04T16:00:00",
+      "durationMinutes": 70
+    },
+    {
+      "activityType": "course",
+      "resourceName": "逆运动学概念复习",
+      "status": "completed",
+      "progress": 100,
+      "score": 55,
+      "kpTags": ["kp12c"],
+      "startTime": "2026-08-02T10:00:00",
+      "durationMinutes": 50
+    },
+    {
+      "activityType": "exercise",
+      "resourceName": "产线协同控制综合实训",
+      "status": "completed",
+      "progress": 100,
+      "score": 82,
+      "kpTags": ["kp06a", "kp06b"],
+      "startTime": "2026-07-31T13:00:00",
+      "durationMinutes": 95
+    }
+  ],
+  "interactionGoal": "有机械行业实战经验，需要补齐PLC编程和工业通信理论，目标是转型智能制造系统集成岗位"
+}
