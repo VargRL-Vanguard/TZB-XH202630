@@ -1,0 +1,133 @@
+{
+  "$schema": "kp_taxonomy_v0.1",
+  "domain": "智能制造-工业机器人与PLC应用",
+  "version": "v0.1",
+  "root": {
+    "kp_id": "kp_root",
+    "kp_name": "智能制造核心知识体系",
+    "children": [
+      {
+        "kp_id": "kp_module_01",
+        "kp_name": "工业机器人基础",
+        "children": [
+          {"kp_id": "kp01", "kp_name": "工业机器人定义与分类", "level": 1},
+          {"kp_id": "kp01a", "kp_name": "工业机器人发展历程与典型应用", "level": 1},
+          {"kp_id": "kp01b", "kp_name": "工业机器人主要技术参数（负载/重复定位精度/工作空间）", "level": 2},
+          {"kp_id": "kp01c", "kp_name": "工业机器人安全操作规范与风险评估", "level": 2},
+          {"kp_id": "kp01d", "kp_name": "工业机器人本体结构与运动自由度", "level": 2},
+          {"kp_id": "kp01e", "kp_name": "末端执行器（夹爪/吸盘/焊枪）选型", "level": 3}
+        ]
+      },
+      {
+        "kp_id": "kp_module_02",
+        "kp_name": "工业机器人坐标系与运动学",
+        "children": [
+          {"kp_id": "kp02", "kp_name": "笛卡儿坐标系、关节坐标系与工具坐标系", "level": 1},
+          {"kp_id": "kp12", "kp_name": "坐标系变换（平移/旋转/齐次变换矩阵）", "level": 3},
+          {"kp_id": "kp12a", "kp_name": "TCP（工具中心点）标定方法", "level": 2},
+          {"kp_id": "kp12b", "kp_name": "用户坐标系与工件坐标系建立", "level": 2},
+          {"kp_id": "kp12c", "kp_name": "正运动学与逆运动学基本概念", "level": 3},
+          {"kp_id": "kp12d", "kp_name": "D-H 参数法建模入门", "level": 3},
+          {"kp_id": "kp15", "kp_name": "工业机器人路径规划（点到点/直线/圆弧）", "level": 2},
+          {"kp_id": "kp15a", "kp_name": "奇异位形识别与避障", "level": 3}
+        ]
+      },
+      {
+        "kp_id": "kp_module_03",
+        "kp_name": "PLC 编程基础",
+        "children": [
+          {"kp_id": "kp03", "kp_name": "PLC 定义、工作原理与扫描周期", "level": 1},
+          {"kp_id": "kp03a", "kp_name": "PLC 硬件组成（CPU/IO 模块/电源/存储）", "level": 1},
+          {"kp_id": "kp03b", "kp_name": "数字量输入输出（DI/DO）接线与寻址", "level": 2},
+          {"kp_id": "kp22", "kp_name": "模拟量输入输出（AI/AO）与信号处理", "level": 3},
+          {"kp_id": "kp22a", "kp_name": "梯形图（LAD）编程元素：触点/线圈/定时器/计数器", "level": 2},
+          {"kp_id": "kp22b", "kp_name": "指令表（STL）与结构化文本（ST）入门", "level": 2},
+          {"kp_id": "kp22c", "kp_name": "顺控程序与状态转移图（SFC）", "level": 2},
+          {"kp_id": "kp22d", "kp_name": "PLC 程序调试与故障诊断", "level": 2}
+        ]
+      },
+      {
+        "kp_id": "kp_module_04",
+        "kp_name": "传感器与检测技术",
+        "children": [
+          {"kp_id": "kp04", "kp_name": "传感器分类与性能指标", "level": 1},
+          {"kp_id": "kp04a", "kp_name": "接近开关（电感式/电容式/光电式）原理", "level": 2},
+          {"kp_id": "kp04b", "kp_name": "限位开关、安全光幕与急停回路", "level": 2},
+          {"kp_id": "kp04c", "kp_name": "编码器（增量/绝对）与位移测量", "level": 3},
+          {"kp_id": "kp04d", "kp_name": "压力、温度、流量传感器在工业中的应用", "level": 2},
+          {"kp_id": "kp04e", "kp_name": "机器视觉基础与视觉定位", "level": 3}
+        ]
+      },
+      {
+        "kp_id": "kp_module_05",
+        "kp_name": "工业互联网与通信",
+        "children": [
+          {"kp_id": "kp05", "kp_name": "工业通信网络分层（现场层/控制层/管理层）", "level": 1},
+          {"kp_id": "kp05a", "kp_name": "Modbus RTU/TCP 协议与主从通信", "level": 2},
+          {"kp_id": "kp05b", "kp_name": "PROFINET / EtherCAT 工业以太网入门", "level": 2},
+          {"kp_id": "kp05c", "kp_name": "OPC UA 数据交互与信息模型", "level": 3},
+          {"kp_id": "kp05d", "kp_name": "工业物联网（IIoT）边缘计算与云接入", "level": 3},
+          {"kp_id": "kp05e", "kp_name": "网络安全与 TSN 时间敏感网络概念", "level": 3}
+        ]
+      },
+      {
+        "kp_id": "kp_module_06",
+        "kp_name": "智能制造系统集成",
+        "children": [
+          {"kp_id": "kp06", "kp_name": "自动化产线组成与工艺流程设计", "level": 1},
+          {"kp_id": "kp06a", "kp_name": "机器人与 PLC 协同控制（I/O 交互/握手信号）", "level": 2},
+          {"kp_id": "kp06b", "kp_name": "气动与电动执行元件（气缸/伺服/步进）", "level": 2},
+          {"kp_id": "kp06c", "kp_name": "传送带、分拣与仓储物流单元", "level": 2},
+          {"kp_id": "kp06d", "kp_name": "MES/ERP 系统集成与数据贯通", "level": 3},
+          {"kp_id": "kp06e", "kp_name": "数字孪生与产线虚拟调试", "level": 3},
+          {"kp_id": "kp18", "kp_name": "工业机器人运动学建模与离线编程", "level": 3},
+          {"kp_id": "kp18a", "kp_name": "节拍分析与产线产能优化", "level": 2}
+        ]
+      }
+    ]
+  },
+  "kp_index": {
+    "kp01": ["kp_module_01"],
+    "kp01a": ["kp_module_01"],
+    "kp01b": ["kp_module_01"],
+    "kp01c": ["kp_module_01"],
+    "kp01d": ["kp_module_01"],
+    "kp01e": ["kp_module_01"],
+    "kp02": ["kp_module_02"],
+    "kp12": ["kp_module_02"],
+    "kp12a": ["kp_module_02"],
+    "kp12b": ["kp_module_02"],
+    "kp12c": ["kp_module_02"],
+    "kp12d": ["kp_module_02"],
+    "kp15": ["kp_module_02"],
+    "kp15a": ["kp_module_02"],
+    "kp03": ["kp_module_03"],
+    "kp03a": ["kp_module_03"],
+    "kp03b": ["kp_module_03"],
+    "kp22": ["kp_module_03"],
+    "kp22a": ["kp_module_03"],
+    "kp22b": ["kp_module_03"],
+    "kp22c": ["kp_module_03"],
+    "kp22d": ["kp_module_03"],
+    "kp04": ["kp_module_04"],
+    "kp04a": ["kp_module_04"],
+    "kp04b": ["kp_module_04"],
+    "kp04c": ["kp_module_04"],
+    "kp04d": ["kp_module_04"],
+    "kp04e": ["kp_module_04"],
+    "kp05": ["kp_module_05"],
+    "kp05a": ["kp_module_05"],
+    "kp05b": ["kp_module_05"],
+    "kp05c": ["kp_module_05"],
+    "kp05d": ["kp_module_05"],
+    "kp05e": ["kp_module_05"],
+    "kp06": ["kp_module_06"],
+    "kp06a": ["kp_module_06"],
+    "kp06b": ["kp_module_06"],
+    "kp06c": ["kp_module_06"],
+    "kp06d": ["kp_module_06"],
+    "kp06e": ["kp_module_06"],
+    "kp18": ["kp_module_06"],
+    "kp18a": ["kp_module_06"]
+  }
+}

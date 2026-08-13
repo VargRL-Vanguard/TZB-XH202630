@@ -89,3 +89,20 @@ backend/c_学习内容/kb/
 demo_videos/
 *.mp4
 !docs/demo/.gitkeep
+
+# ========== 团队成员本地环境 ==========
+# 作者本机夹带的独立 Python 解释器（不通用，队友用不到）
+python312/
+.python_embedded/
+
+# 临时生成的 SQLite 单测库（脚本每次都建在 temp 目录，忽略）
+*.db
+*.sqlite
+*.sqlite3
+!backend/b_*/test_profiles/*.db
+
+# 临时工作目录
+.trae-cn/
+
+# 作者本机一键脚本的副本
+backend/run_all_tests.ps1

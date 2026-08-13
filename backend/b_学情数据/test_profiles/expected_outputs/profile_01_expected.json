@@ -1,0 +1,18 @@
+{
+  "profile_id": "p-001",
+  "expected_weak_kps": [
+    {
+      "kp_id": "kp12d",
+      "severity": "medium",
+      "reason": "D-H参数法建模对本科生偏难，理论测试中相关题目得分率仅60%"
+    },
+    {
+      "kp_id": "kp22c",
+      "severity": "low",
+      "reason": "顺控程序SFC概念理解不深，但具备基础"
+    }
+  ],
+  "expected_strong_kps": ["kp01", "kp02", "kp03", "kp15"],
+  "expected_confidence_range": [0.70, 0.90],
+  "expected_gap_count_range": [2, 5]
+}

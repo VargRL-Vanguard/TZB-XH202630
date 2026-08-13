@@ -1,0 +1,38 @@
+{
+  "profile_id": "p-003",
+  "expected_weak_kps": [
+    {
+      "kp_id": "kp03",
+      "severity": "high",
+      "reason": "PLC工作原理与扫描周期概念缺乏，虽有实操但理论体系不完整"
+    },
+    {
+      "kp_id": "kp22",
+      "severity": "high",
+      "reason": "模拟量信号处理理论薄弱，实际工作中依赖电气工程师"
+    },
+    {
+      "kp_id": "kp22b",
+      "severity": "medium",
+      "reason": "STL/ST文本编程接触少，习惯使用梯形图"
+    },
+    {
+      "kp_id": "kp05",
+      "severity": "medium",
+      "reason": "工业通信网络分层理论不熟"
+    },
+    {
+      "kp_id": "kp05a",
+      "severity": "medium",
+      "reason": "Modbus协议细节不清晰"
+    },
+    {
+      "kp_id": "kp12c",
+      "severity": "low",
+      "reason": "运动学概念有基础但不够系统"
+    }
+  ],
+  "expected_strong_kps": ["kp01d", "kp04", "kp06b"],
+  "expected_confidence_range": [0.60, 0.85],
+  "expected_gap_count_range": [3, 7]
+}
