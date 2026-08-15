@@ -25,6 +25,31 @@ from backend.main import app
 from backend.a_用户与聊天.auth.tokens import create_access_token
 from backend.a_用户与聊天.db import get_session, upsert_learner_profile
 
+# 与 seed_data.py 保持一致的种子画像（测试改完必须恢复，避免污染其他测试）
+_SEED_PROFILES = {
+    "u001": {
+        "education": "本科",
+        "major": "机械工程",
+        "theory_test_score": 78,
+        "weak_kps": ["kp12", "kp15"],
+        "strong_kps": ["kp03", "kp07"],
+    },
+    "u002": {
+        "education": "本科",
+        "major": "软件工程",
+        "theory_test_score": 85,
+        "weak_kps": ["kp08"],
+        "strong_kps": ["kp01", "kp02", "kp03"],
+    },
+}
+
+
+async def _restore_profile(user_id: str) -> None:
+    """把被测用户画像恢复为 seed_data.py 的初始值。"""
+    seed = _SEED_PROFILES.get(user_id)
+    if seed:
+        await upsert_learner_profile(user_id, **seed)
+
 
 # ========== 辅助：生成指定用户 token ==========
 
@@ -145,6 +170,9 @@ async def test_profile_student_self_update_ok():
     assert data["theoryTestScore"] == 88
     assert "kp001" in data["weakKPs"]
 
+    # 恢复种子数据（本测试连真实 MySQL，改完必须还原）
+    await _restore_profile("u001")
+
 
 @pytest.mark.asyncio
 async def test_profile_student_update_other_forbidden():
@@ -180,6 +208,9 @@ async def test_profile_teacher_update_student_ok():
     assert data["userId"] == "u002"
     assert data["education"] == "硕士"
     assert data["theoryTestScore"] == 92
+
+    # 恢复种子数据（本测试连真实 MySQL，改完必须还原）
+    await _restore_profile("u002")
 
 
 @pytest.mark.asyncio
@@ -224,6 +255,9 @@ async def test_profile_partial_update_preserves_other_fields():
     assert data["major"] == "机械工程"   # 没动
     assert data["theoryTestScore"] == 75  # 没动
     assert data["weakKPs"] == ["kp010"]   # 没动
+
+    # 恢复种子数据（本测试连真实 MySQL，改完必须还原）
+    await _restore_profile("u002")
 
 
 @pytest.mark.asyncio
