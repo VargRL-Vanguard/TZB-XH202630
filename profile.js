@@ -15,7 +15,7 @@
 
 // API配置
 const API_CONFIG = {
-    baseURL: 'http://localhost:3000/api', // 后端接口地址，部署时修改
+    baseURL: 'http://localhost:8000/api', // 后端接口地址（对齐后端端口）
     useRealAPI: false, // 是否启用真实API，后端就绪后改为true
     timeout: 10000
 };

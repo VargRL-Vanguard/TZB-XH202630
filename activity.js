@@ -5,7 +5,7 @@
 
 // ==================== API配置 ====================
 const API_CONFIG = {
-    baseURL: 'http://localhost:3000/api',
+    baseURL: 'http://localhost:8000/api', // 后端接口地址（对齐后端端口）
     useRealAPI: false,
     timeout: 10000
 };

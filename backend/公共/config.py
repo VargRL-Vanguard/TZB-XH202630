@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     QUALITY_THRESHOLD_COVERAGE: float = 0.90           # ≥ 90%
 
     # CORS
-    CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:5173"]
+    CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:5173", "http://localhost:5500", "http://127.0.0.1:5500"]
 
     model_config = SettingsConfigDict(
         env_file=".env",

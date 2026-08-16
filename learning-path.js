@@ -5,7 +5,7 @@
 
 // ==================== API配置 ====================
 const API_CONFIG = {
-    baseURL: 'http://localhost:3000/api', // 后端基础地址，修改为实际地址
+    baseURL: 'http://localhost:8000/api', // 后端接口地址（对齐后端端口）
     useRealAPI: false, // false=使用Mock数据，true=调用真实API
     timeout: 10000
 };
