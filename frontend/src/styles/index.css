@@ -1,0 +1,99 @@
+/* ==================== 全局样式（视觉规范 v2） ==================== */
+:root {
+  /* 色板 */
+  --color-primary: #4f6ef7;
+  --color-secondary: #7c5cfc;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-agent-blue: #38bdf8;
+  --color-agent-purple: #a78bfa;
+  --color-agent-gold: #fbbf24;
+
+  /* 背景 */
+  --bg-page: #f7f8fc;
+  --bg-screen: #0b1020;
+
+  /* 文字 */
+  --text-main: #1f2937;
+  --text-sub: #6b7280;
+
+  /* 间距（8px 基数） */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+
+  /* 卡片 */
+  --card-radius: 10px;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  /* 动画 */
+  --dur-fast: 200ms;
+  --dur-mid: 300ms;
+  --ease-out: ease-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 指标数字等宽 */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 页面容器 */
+.page {
+  min-height: 100%;
+  padding: var(--sp-3);
+  animation: page-in 200ms var(--ease-out);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* reduced-motion 全局降级 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
