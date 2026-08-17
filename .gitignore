@@ -106,3 +106,9 @@ python312/
 
 # 作者本机一键脚本的副本
 backend/run_all_tests.ps1
+
+# ========== 前端 ==========
+# ⚠️ 依赖与构建产物绝不进 git（2026-08-17 曾误提交 node_modules 1 万文件，已清理）
+frontend/node_modules/
+frontend/dist/
+frontend/*.local
