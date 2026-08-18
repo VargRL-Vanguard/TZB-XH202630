@@ -7,16 +7,27 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AgentCard: typeof import('./components/AgentCard.vue')['default']
+    AppShell: typeof import('./components/AppShell.vue')['default']
+    ConstructionPage: typeof import('./components/ConstructionPage.vue')['default']
+    DifficultyBadge: typeof import('./components/DifficultyBadge.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
     ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
+    EmptyState: typeof import('./components/EmptyState.vue')['default']
+    ErrorState: typeof import('./components/ErrorState.vue')['default']
+    MetricCard: typeof import('./components/MetricCard.vue')['default']
     NetBanner: typeof import('./components/NetBanner.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SideNav: typeof import('./components/SideNav.vue')['default']
+    Skeleton: typeof import('./components/Skeleton.vue')['default']
+    TopBar: typeof import('./components/TopBar.vue')['default']
   }
 }

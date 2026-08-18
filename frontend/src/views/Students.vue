@@ -1,20 +1,9 @@
+<script setup lang="ts">
+import ConstructionPage from '@/components/ConstructionPage.vue'
+</script>
+
 <template>
-  <div class="page placeholder">
-    <h1>学生列表</h1>
-    <p>教师端页面规划中</p>
+  <div class="page">
+    <ConstructionPage title="学生列表" owner="B 组" eta="8-25" fallback-link="/chat" />
   </div>
 </template>
-
-<style scoped>
-.placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: var(--text-sub);
-}
-h1 {
-  color: var(--text-main);
-}
-</style>

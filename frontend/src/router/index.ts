@@ -78,7 +78,8 @@ const routes: RouteRecordRaw[] = [
     path: '/agent-screen',
     name: 'agent-screen',
     component: () => import('@/views/AgentScreen.vue'),
-    meta: { title: '多智能体协同大屏' }
+    // layout: 'full' → 不套 AppShell，大屏全屏展示（15 号任务书 T1 例外路由）
+    meta: { title: '多智能体协同大屏', layout: 'full' }
   },
   {
     path: '/quality',
@@ -97,6 +98,13 @@ const routes: RouteRecordRaw[] = [
     name: 'not-found',
     component: () => import('@/views/NotFound.vue'),
     meta: { title: '页面不存在', public: true }
+  },
+  {
+    // 组件库演示页（05 号文档 v1 验收用；内部路由，不进侧栏菜单）
+    path: '/demo',
+    name: 'demo',
+    component: () => import('@/views/_demo.vue'),
+    meta: { title: '组件演示' }
   },
   {
     path: '/:pathMatch(.*)*',
