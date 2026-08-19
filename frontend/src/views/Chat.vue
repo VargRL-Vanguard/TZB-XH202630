@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { Picture, UploadFilled } from '@element-plus/icons-vue'
 import {
   getConversationList,
   getHistory,
@@ -11,6 +12,7 @@ import {
 } from '@/api/chat'
 import { useAuthStore } from '@/stores/auth'
 import { wsClient } from '@/ws/client'
+import ChatQuickPanel from '@/components/chat/ChatQuickPanel.vue'
 
 /**
  * 聊天页（01 号任务阶段三 · 契约 §1.6-1.9 + DoD）
@@ -67,7 +69,7 @@ async function loadConversations() {
   convLoading.value = true
   convError.value = false
   try {
-    conversations.value = await getConversationList()
+    conversations.value = await getConversationList(me.value)
   } catch {
     convError.value = true
   } finally {
@@ -279,6 +281,102 @@ function bumpConversation(targetId: string, content: string, unreadPlus = false)
 }
 
 // ============ 工具 ============
+/** 快捷短语/表情插入：追加到草稿末尾（可继续编辑后发送） */
+function onQuickInsert(text: string) {
+  draft.value = draft.value + text
+}
+
+// ============ 自定义聊天背景 ============
+// 预设渐变 + 本地图片上传，localStorage 持久化（key: tzb:chat-bg）
+const BG_STORAGE_KEY = 'tzb:chat-bg'
+const PRESET_BGS = [
+  { id: 'default', label: '默认', css: '' },
+  {
+    id: 'aurora',
+    label: '极光',
+    css: 'linear-gradient(160deg, #e0e7ff 0%, #eef2ff 45%, #ecfeff 100%)'
+  },
+  {
+    id: 'sakura',
+    label: '樱粉',
+    css: 'linear-gradient(160deg, #fdf2f8 0%, #fff1f2 50%, #fef3c7 100%)'
+  },
+  {
+    id: 'mint',
+    label: '抹茶',
+    css: 'linear-gradient(160deg, #ecfdf5 0%, #f0fdfa 50%, #f0f9ff 100%)'
+  },
+  {
+    id: 'night',
+    label: '夜幕',
+    css: 'linear-gradient(160deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%)'
+  },
+  {
+    id: 'peach',
+    label: '蜜桃',
+    css: 'linear-gradient(160deg, #fff7ed 0%, #ffe4e6 55%, #fae8ff 100%)'
+  }
+] as const
+
+const bgId = ref(localStorage.getItem(BG_STORAGE_KEY) ?? 'default')
+/** 自定义图片（dataURL，优先于预设） */
+const bgImage = ref<string | null>(
+  (() => {
+    try {
+      return localStorage.getItem(`${BG_STORAGE_KEY}:img`)
+    } catch {
+      return null
+    }
+  })()
+)
+
+const usingCustomImage = computed(() => !!bgImage.value)
+const chatBodyStyle = computed(() => {
+  if (bgImage.value) {
+    // veil 遮罩层（--chat-bg-veil 随昼夜主题变化）保证气泡可读；遮罩叠在背景图上、内容下方
+    return {
+      backgroundImage: `linear-gradient(var(--chat-bg-veil), var(--chat-bg-veil)), url(${bgImage.value})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    }
+  }
+  const preset = PRESET_BGS.find((p) => p.id === bgId.value)
+  return preset?.css ? { background: preset.css } : {}
+})
+
+function applyBg(id: string) {
+  bgId.value = id
+  bgImage.value = null
+  localStorage.setItem(BG_STORAGE_KEY, id)
+  localStorage.removeItem(`${BG_STORAGE_KEY}:img`)
+}
+
+const bgFileRef = ref<HTMLInputElement>()
+function onPickBgFile() {
+  bgFileRef.value?.click()
+}
+function onBgFileChange(e: Event) {
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (!file) return
+  if (file.size > 4 * 1024 * 1024) {
+    ElMessage.warning('图片不能超过 4MB，请压缩后再试')
+    return
+  }
+  const reader = new FileReader()
+  reader.onload = () => {
+    bgImage.value = String(reader.result)
+    try {
+      localStorage.setItem(`${BG_STORAGE_KEY}:img`, String(reader.result))
+    } catch {
+      // 存储超限（dataURL 过大）时仅本次会话生效
+      ElMessage.warning('图片较大，仅本次会话生效')
+    }
+    ElMessage.success('聊天背景已更新')
+  }
+  reader.readAsDataURL(file)
+  ;(e.target as HTMLInputElement).value = ''
+}
+
 function fmtTime(ts: string): string {
   const d = new Date(ts)
   if (Number.isNaN(d.getTime())) return ''
@@ -391,10 +489,60 @@ onUnmounted(() => {
               <span class="chat-panel__name">{{ activeConversation?.name || activeTargetId }}</span>
               <span class="chat-panel__id">（{{ activeTargetId }}）</span>
             </div>
+
+            <!-- 聊天背景设置 -->
+            <el-popover placement="bottom-end" :width="236" trigger="click">
+              <template #reference>
+                <el-button :icon="Picture" circle size="small" title="聊天背景" />
+              </template>
+              <div class="bg-picker">
+                <h4 class="bg-picker__title">聊天背景</h4>
+                <div class="bg-picker__grid">
+                  <button
+                    v-for="p in PRESET_BGS"
+                    :key="p.id"
+                    class="bg-picker__swatch"
+                    :class="{
+                      'bg-picker__swatch--on': bgId === p.id && !usingCustomImage
+                    }"
+                    :style="p.css ? { background: p.css } : {}"
+                    :title="p.label"
+                    @click="applyBg(p.id)"
+                  >
+                    <span v-if="!p.css" class="bg-picker__default">默认</span>
+                    <span v-if="bgId === p.id && !usingCustomImage" class="bg-picker__check"
+                      >✓</span
+                    >
+                  </button>
+                </div>
+                <el-button
+                  class="bg-picker__upload"
+                  size="small"
+                  :icon="UploadFilled"
+                  @click="onPickBgFile"
+                >
+                  {{ usingCustomImage ? '更换自定义图片' : '上传自定义图片' }}
+                </el-button>
+                <p class="bg-picker__hint">选择即时生效，本地保存（≤4MB）</p>
+                <input
+                  ref="bgFileRef"
+                  type="file"
+                  accept="image/*"
+                  style="display: none"
+                  @change="onBgFileChange"
+                />
+              </div>
+            </el-popover>
           </header>
 
           <!-- 消息区 4 态 -->
-          <div ref="scrollRef" class="chat-panel__body" @scroll.passive="onScroll">
+          <div
+            ref="scrollRef"
+            class="chat-panel__body"
+            :class="{ 'chat-panel__body--bg': bgId !== 'default' || usingCustomImage }"
+            :style="chatBodyStyle"
+            @scroll.passive="onScroll"
+          >
             <!-- 加载更多提示 -->
             <div v-if="loadingMore" class="load-more-tip">加载历史消息…</div>
             <div v-else-if="hasMore && messages.length" class="load-more-tip">上滑加载更多</div>
@@ -484,6 +632,7 @@ onUnmounted(() => {
 
           <!-- 输入区 -->
           <footer class="chat-panel__footer">
+            <ChatQuickPanel @insert="onQuickInsert" />
             <el-input
               v-model="draft"
               type="textarea"
@@ -543,7 +692,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  background: #fff;
+  background: var(--bg-card);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   overflow: hidden;
@@ -554,7 +703,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  border-bottom: 1px solid #f0f1f5;
+  border-bottom: 1px solid var(--border-line);
 }
 
 .conv-panel__header h2 {
@@ -564,7 +713,7 @@ onUnmounted(() => {
 .conv-panel__total-unread {
   font-size: 12px;
   color: var(--color-danger);
-  background: #fee2e2;
+  background: color-mix(in srgb, var(--color-danger) 12%, transparent);
   border-radius: 10px;
   padding: 2px 8px;
 }
@@ -600,12 +749,12 @@ onUnmounted(() => {
 }
 
 .conv-item:hover {
-  background: #f5f6fa;
+  background: var(--bg-soft);
 }
 
 .conv-item--active,
 .conv-item--active:hover {
-  background: #eef1fe;
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
 }
 
 .conv-item__avatar {
@@ -679,15 +828,26 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  background: #fff;
+  background: var(--bg-card);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   overflow: hidden;
 }
 
 .chat-panel__header {
-  padding: 14px 16px;
-  border-bottom: 1px solid #f0f1f5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-line);
+}
+
+.chat-panel__title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chat-panel__name {
@@ -705,7 +865,7 @@ onUnmounted(() => {
   min-height: 0;
   overflow-y: auto;
   padding: 16px;
-  background: #fafbfd;
+  background: var(--bg-soft);
 }
 
 .chat-panel__placeholder {
@@ -783,8 +943,8 @@ onUnmounted(() => {
 .bubble {
   padding: 9px 14px;
   border-radius: 12px;
-  background: #fff;
-  border: 1px solid #e8eaf1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
   font-size: 14px;
   line-height: 1.6;
   word-break: break-word;
@@ -798,9 +958,9 @@ onUnmounted(() => {
 }
 
 .bubble--failed {
-  background: #fee2e2 !important;
+  background: color-mix(in srgb, var(--color-danger) 14%, var(--bg-card)) !important;
   border: 1px solid var(--color-danger) !important;
-  color: #991b1b !important;
+  color: var(--color-danger) !important;
 }
 
 .bubble-row__meta {
@@ -828,7 +988,7 @@ onUnmounted(() => {
 .resend-btn {
   border: 1px solid var(--color-danger);
   color: var(--color-danger);
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 4px;
   font-size: 11px;
   padding: 0 8px;
@@ -844,7 +1004,7 @@ onUnmounted(() => {
 /* ============ 输入区 ============ */
 .chat-panel__footer {
   padding: 12px 16px 14px;
-  border-top: 1px solid #f0f1f5;
+  border-top: 1px solid var(--border-line);
 }
 
 .chat-panel__footer-bar {
@@ -881,6 +1041,71 @@ onUnmounted(() => {
 
 .state-block__hint {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--text-sub);
+}
+
+/* ============ 聊天背景选择器（popover 内） ============ */
+.bg-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bg-picker__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.bg-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.bg-picker__swatch {
+  position: relative;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--border-line);
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.bg-picker__swatch:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-primary);
+}
+
+.bg-picker__swatch--on {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+.bg-picker__default {
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
+.bg-picker__check {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+.bg-picker__upload {
+  width: 100%;
+}
+
+.bg-picker__hint {
+  font-size: 11px;
+  color: var(--text-sub);
 }
 </style>

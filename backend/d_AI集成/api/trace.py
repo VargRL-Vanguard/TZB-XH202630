@@ -6,7 +6,7 @@ D-07：Trace 追踪接口。
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends
-from backend.公共.auth import get_current_user
+from backend.公共.auth_middleware import get_current_user
 from backend.d_AI集成.ws_bridge import get_trace_events
 
 router = APIRouter(prefix="/api/ai/trace", tags=["AI追踪"])

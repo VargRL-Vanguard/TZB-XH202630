@@ -129,7 +129,7 @@ const textRows = computed<number[]>(() => {
   flex-direction: column;
   gap: var(--sp-1);
   padding: var(--sp-2);
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
 }
@@ -177,7 +177,7 @@ const textRows = computed<number[]>(() => {
   flex-direction: column;
   gap: var(--sp-1);
   padding: var(--sp-2);
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
 }

@@ -1,0 +1,7 @@
+# 前端构建上下文排除（context = frontend/）
+node_modules/
+dist/
+prompts/
+*.md
+run_all_tests.ps1
+.env.development

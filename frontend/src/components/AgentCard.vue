@@ -62,7 +62,7 @@ const stateText = computed<Record<AgentCardState, string>>(() => ({
   padding: var(--sp-2);
   min-width: 0;
   border-radius: var(--card-radius);
-  background: #ffffff;
+  background: var(--bg-card);
   box-shadow: var(--card-shadow);
   border: 1px solid color-mix(in srgb, var(--agent-theme) 25%, transparent);
   transition:

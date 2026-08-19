@@ -1,45 +1,32 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted } from 'vue'
 import SideNav from '@/components/SideNav.vue'
 import TopBar from '@/components/TopBar.vue'
+import { useUiStore } from '@/stores/ui'
 
 /**
  * 全局导航壳（15 号任务书 T1）
  * - 布局：左侧 SideNav 固定 220px + 右侧（TopBar 56px + 内容区）
- * - 内容区渲染默认插槽（App.vue 传入 <router-view>，页面自带 page-in 过渡）
- * - 折叠：视口 ≤1200px 自动折叠成 64px icon-only；手动切换优先级更高
- * - 侧栏与内容区之间 1px 分隔线 #EEF0F4；右内容区背景 --bg-page
+ * - 折叠状态存 ui store（快捷键 Alt+B 同源控制）：视口 ≤1200px 自动折叠，手动优先
+ * - 右内容区背景 --bg-page，与侧栏 1px 分隔线 --border-line
  */
-
-// 折叠状态：manualOverride 为 true 时以手动操作为准，不再跟随窗口宽度
-const collapsed = ref(false)
-let manualOverride = false
-
-function updateByViewport() {
-  if (manualOverride) return
-  collapsed.value = window.innerWidth <= 1200
-}
-
-function toggleCollapse() {
-  manualOverride = true
-  collapsed.value = !collapsed.value
-}
+const ui = useUiStore()
 
 onMounted(() => {
-  updateByViewport()
-  window.addEventListener('resize', updateByViewport)
+  ui.updateByViewport()
+  window.addEventListener('resize', ui.updateByViewport)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', updateByViewport)
+  window.removeEventListener('resize', ui.updateByViewport)
 })
 </script>
 
 <template>
   <div class="app-shell">
-    <SideNav :collapsed="collapsed" />
+    <SideNav :collapsed="ui.sideCollapsed" />
     <div class="app-shell__main">
-      <TopBar :collapsed="collapsed" @toggle="toggleCollapse" />
+      <TopBar :collapsed="ui.sideCollapsed" @toggle="ui.toggleSide()" />
       <main class="app-shell__content">
         <slot />
       </main>
@@ -61,7 +48,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   background: var(--bg-page);
-  border-left: 1px solid #eef0f4; /* 任务书指定分隔线 */
+  border-left: 1px solid var(--border-line); /* 任务书指定分隔线 */
 }
 
 .app-shell__content {

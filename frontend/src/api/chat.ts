@@ -49,9 +49,9 @@ export function getHistory(params: {
   return get<ChatHistoryResp>('/api/chat/history', params)
 }
 
-/** GET /api/chat/list */
-export function getConversationList() {
-  return get<Conversation[]>('/api/chat/list')
+/** GET /api/chat/list?userId= — 后端 userId 为必填 Query（缺参 422） */
+export function getConversationList(userId: string) {
+  return get<Conversation[]>('/api/chat/list', { userId })
 }
 
 /** POST /api/chat/read */

@@ -70,7 +70,9 @@ class WsClient {
 
   private openSocket() {
     this.setStatus(this.retries > 0 ? 'reconnecting' : 'connecting')
-    const base = (import.meta.env.VITE_API_BASE || 'http://127.0.0.1:8000').replace(/\/$/, '')
+    // VITE_API_BASE='/' 时 replace 后为空串 → 走同源（nginx 反代部署），WebSocket 需要绝对地址故用 location.origin
+    const raw = (import.meta.env.VITE_API_BASE || 'http://127.0.0.1:8000').replace(/\/$/, '')
+    const base = raw || window.location.origin
     const url = `${base.replace(/^http/, 'ws')}/ws?token=${encodeURIComponent(this.token)}`
     try {
       this.ws = new WebSocket(url)

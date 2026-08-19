@@ -33,6 +33,8 @@ export default defineConfig({
   },
   build: {
     sourcemap: false,
+    // echarts / element-plus 已 manualChunks 拆包；全量组件库 1MB 属预期，提高阈值消除误导警告
+    chunkSizeWarningLimit: 1200,
     rollupOptions: {
       output: {
         manualChunks: {

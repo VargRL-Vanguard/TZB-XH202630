@@ -112,3 +112,6 @@ backend/run_all_tests.ps1
 frontend/node_modules/
 frontend/dist/
 frontend/*.local
+
+# 开发工具本地缓存（trunk 等生成的临时目录）
+.trunk/

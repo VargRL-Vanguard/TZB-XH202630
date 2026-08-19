@@ -127,7 +127,7 @@ withDefaults(
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: var(--card-radius); /* 10px */
   box-shadow: var(--card-shadow);
   overflow: hidden;

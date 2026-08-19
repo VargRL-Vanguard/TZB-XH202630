@@ -129,7 +129,7 @@ function isActive(path: string): boolean {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: #ffffff; /* 任务书指定：侧栏白底 */
+  background: var(--bg-card); /* 任务书指定：侧栏白底 */
   overflow-y: auto;
   overflow-x: hidden;
   transition: width 200ms var(--ease-out); /* 折叠动画 200ms ease-out */
@@ -146,7 +146,7 @@ function isActive(path: string): boolean {
   gap: 10px;
   padding: 14px 16px;
   min-height: 56px; /* 与 TopBar 等高对齐 */
-  border-bottom: 1px solid #eef0f4;
+  border-bottom: 1px solid var(--border-line);
 }
 
 .side-nav--collapsed .side-nav__brand {
@@ -264,6 +264,6 @@ function isActive(path: string): boolean {
   padding: 12px 16px;
   font-size: 11px;
   color: var(--text-sub);
-  border-top: 1px solid #eef0f4;
+  border-top: 1px solid var(--border-line);
 }
 </style>

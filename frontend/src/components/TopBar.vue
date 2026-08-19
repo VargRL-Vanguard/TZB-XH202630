@@ -2,8 +2,9 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
-import { Fold, Expand, SwitchButton } from '@element-plus/icons-vue'
+import { Fold, Expand, SwitchButton, Sunny, Moon } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
+import { useThemeStore } from '@/stores/theme'
 
 /**
  * 顶部栏（15 号任务书 T1）
@@ -19,6 +20,7 @@ const emit = defineEmits<{ (e: 'toggle'): void }>()
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
+const theme = useThemeStore()
 
 // 当前页标题（路由 meta.title，守卫已保证存在）
 const pageTitle = computed(() => (route.meta.title as string) || '')
@@ -67,8 +69,19 @@ async function handleLogout() {
       <h1 class="top-bar__title">{{ pageTitle }}</h1>
     </div>
 
-    <!-- 右侧：用户胶囊 + 登出 -->
+    <!-- 右侧：主题切换 + 用户胶囊 + 登出 -->
     <div class="top-bar__right">
+      <button
+        class="top-bar__icon-btn"
+        :title="theme.isDark ? '切换到白天模式（Alt+T）' : '切换到夜间模式（Alt+T）'"
+        :aria-label="theme.isDark ? '切换到白天模式' : '切换到夜间模式'"
+        @click="theme.toggle()"
+      >
+        <el-icon :size="18">
+          <Sunny v-if="theme.isDark" />
+          <Moon v-else />
+        </el-icon>
+      </button>
       <div class="top-bar__user" :title="auth.userId">
         <span class="top-bar__avatar">{{ avatarChar }}</span>
         <span class="top-bar__name">{{ auth.userId }}</span>
@@ -92,8 +105,40 @@ async function handleLogout() {
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  background: #ffffff;
-  border-bottom: 1px solid #eef0f4; /* 与侧栏分隔线同色 */
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-line); /* 与侧栏分隔线同色 */
+}
+
+/* 图标按钮（主题切换等）：与折叠按钮同规格 */
+.top-bar__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition:
+    background-color 200ms var(--ease-out),
+    color 200ms var(--ease-out),
+    transform 150ms var(--ease-out);
+}
+
+.top-bar__icon-btn:hover {
+  background: rgba(79, 110, 247, 0.08);
+  color: var(--color-primary);
+}
+
+.top-bar__icon-btn:active {
+  transform: scale(0.92) rotate(-12deg); /* 点击反馈：微缩+微转 */
+}
+
+.top-bar__icon-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
 }
 
 /* ===== 左侧 ===== */
@@ -158,7 +203,7 @@ async function handleLogout() {
   padding: 4px 12px 4px 4px;
   border-radius: 999px;
   background: var(--bg-page);
-  border: 1px solid #eef0f4;
+  border: 1px solid var(--border-line);
 }
 
 .top-bar__avatar {

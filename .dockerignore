@@ -1,0 +1,20 @@
+# backend 构建上下文（项目根）排除项
+# 注意：docker/ 目录被 COPY（backend-entrypoint.sh），不可排除
+venv/
+.venv/
+node_modules/
+frontend/          # backend 构建只 COPY backend/ 与 docker/，排掉整个前端加速上下文
+.git/
+.trunk/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.db
+*.sqlite3
+logs/
+.vscode/
+.trae-cn/
+docs/
+!docs/quality_reports/
+docker-compose.yml
+start_dev.ps1

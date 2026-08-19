@@ -84,8 +84,10 @@ service.interceptors.response.use(
       handleUnauthorized(url)
       return Promise.reject(new BizError(401, '未登录或登录已过期'))
     }
-    if (status === 400 || status === 403 || status === 404) {
-      const msg = error.response?.data?.message || '请求失败'
+    // 有 HTTP 响应说明服务可达，属业务/参数错误，不触发断网横幅（422 曾误入断网分支致黄条常驻）
+    if (status === 400 || status === 403 || status === 404 || status === 422) {
+      const msg =
+        error.response?.data?.message || (status === 422 ? '请求参数错误' : '请求失败')
       ElMessage.error(msg)
       return Promise.reject(new BizError(status, msg))
     }

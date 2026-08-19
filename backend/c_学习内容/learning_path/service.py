@@ -28,6 +28,8 @@ try:
     log = _public_get_logger(__name__)
 except Exception:  # pragma: no cover
     log = logging.getLogger(__name__)
+# 兼容：下方 except 分支沿用旧名 logger（否则 DB 异常时会抛 NameError）
+logger = log
 
 
 # ---------------------------------------------------------------------------

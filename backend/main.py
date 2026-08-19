@@ -25,6 +25,12 @@ from backend.a_用户与聊天.user.router import router as user_router
 from backend.a_用户与聊天.chat import router as chat_router
 from backend.a_用户与聊天.ws.server import router as ws_router, heartbeat_cleanup_task
 
+# B/C/D 区路由（四区合一启动：前端 8000 端口一次拉通全部接口）
+from backend.b_学情数据.routes import router as b_router
+from backend.c_学习内容.routes import router as c_router
+from backend.d_AI集成.routes import router as d_router
+from backend.公共.quality_api import router as quality_router
+
 log = get_logger(__name__)
 
 
@@ -38,6 +44,27 @@ async def lifespan(app: FastAPI):
     log.info(f"🚀 启动 A 区服务: ENV={settings.ENV} PORT={settings.PORT}")
     cleanup_task = asyncio.create_task(heartbeat_cleanup_task(interval=60))
     log.info("✅ 心跳清理后台任务已启动 (60s 间隔)")
+
+    # B/C/D 区幂等建表（失败不阻塞启动，降级为该区接口报错）
+    try:
+        from backend.b_学情数据.db import create_all_tables as b_init
+        await b_init()
+        log.info("✅ B 区建表完成")
+    except Exception as e:  # noqa: BLE001
+        log.warning(f"B 区建表失败（接口将报错）: {e}")
+    try:
+        from backend.c_学习内容.db import init_db as c_init
+        c_init()
+        log.info("✅ C 区建表完成")
+    except Exception as e:  # noqa: BLE001
+        log.warning(f"C 区建表失败（接口将报错）: {e}")
+    try:
+        from backend.d_AI集成.db import create_all_tables as d_init
+        await d_init()
+        log.info("✅ D 区建表完成")
+    except Exception as e:  # noqa: BLE001
+        log.warning(f"D 区建表失败（接口将报错）: {e}")
+
     yield
     # 关闭时
     cleanup_task.cancel()
@@ -80,6 +107,18 @@ app.include_router(chat_router, prefix="/api/chat", tags=["A-03 聊天消息"])
 
 # A-04 WebSocket（/ws）
 app.include_router(ws_router, tags=["A-04 WebSocket"])
+
+# B 区学情数据（/api/student/* /api/activity/*）
+app.include_router(b_router, tags=["B-学情数据"])
+
+# C 区学习内容（/api/learning-path/* /api/suggestions/*）
+app.include_router(c_router, tags=["C-学习内容"])
+
+# D 区 AI 集成（/api/ai-chat/* /api/ai/trace/* /api/ai/visualization/*）
+app.include_router(d_router, tags=["D-AI集成"])
+
+# 质量看板（/api/quality/latest）
+app.include_router(quality_router, tags=["质量看板"])
 
 
 # ========== 统一异常处理 ==========

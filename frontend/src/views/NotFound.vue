@@ -33,7 +33,7 @@ function goHome() {
 .notfound__card {
   text-align: center;
   padding: 48px 64px;
-  background: #fff;
+  background: var(--bg-card);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
 }

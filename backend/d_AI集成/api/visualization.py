@@ -6,7 +6,7 @@ FastAPI 路由，返回可视化所需的聚合数据。
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends
-from backend.公共.auth import get_current_user
+from backend.公共.auth_middleware import get_current_user
 from backend.d_AI集成.ws_bridge import get_visualization_data
 
 router = APIRouter(prefix="/api/ai/visualization", tags=["AI可视化"])
