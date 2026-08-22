@@ -16,26 +16,26 @@ class DConfig(BaseSettings):
         "sqlite+aiosqlite:///./backend/d_AI集成/tzb_ai_integration.db"
     )
 
-    # ---- 3 个 AI 服务配置 ----
-    # ChatAI（辅导对话）
+    # ---- 3+1 个 AI 服务配置 ----
+    # ChatAI（辅导对话）→ DeepSeek
     CHAT_AI_API_KEY: str = ""
     CHAT_AI_ENDPOINT: str = ""
-    CHAT_AI_MODEL: str = "gpt-4o-mini"
+    CHAT_AI_MODEL: str = "deepseek-chat"
 
-    # PathAI（学习路径生成）
+    # PathAI（学习路径生成）→ 硅基流动
     PATH_AI_API_KEY: str = ""
     PATH_AI_ENDPOINT: str = ""
-    PATH_AI_MODEL: str = "gpt-4o-mini"
+    PATH_AI_MODEL: str = "Qwen/Qwen2.5-7B-Instruct"
 
-    # SuggestAI（学习建议生成）
+    # SuggestAI（学习建议生成）→ 阿里云百炼
     SUGGEST_AI_API_KEY: str = ""
     SUGGEST_AI_ENDPOINT: str = ""
-    SUGGEST_AI_MODEL: str = "gpt-4o-mini"
+    SUGGEST_AI_MODEL: str = "qwen-plus"
 
-    # EmbedAI（知识库 embedding 检索）
+    # EmbedAI（知识库 embedding 检索）→ 硅基流动
     EMBED_AI_API_KEY: str = ""
     EMBED_AI_ENDPOINT: str = ""
-    EMBED_AI_MODEL: str = "text-embedding-3-small"
+    EMBED_AI_MODEL: str = "BAAI/bge-m3"
 
     # 引擎调试选项
     DB_ECHO: bool = False

@@ -23,11 +23,16 @@ services:
       context: .
       dockerfile: docker/backend.Dockerfile
     container_name: tzb-backend
+    # AI Key 等敏感配置从项目根 .env 注入（.env 不进镜像、不进 git）
+    env_file:
+      - .env
     environment:
       ENV: prod
       PORT: "8000"
       JWT_SECRET: tzb-jwt-secret-docker-demo
       # 四区数据库：容器网络内主机名 mysql
+      # 注意：environment 优先级高于 env_file，会覆盖 .env 里的 localhost 连接串，
+      # AI Key（CHAT/PATH/SUGGEST/EMBED_AI_*）则从 .env 透传进容器
       # 注意 C 区是同步 create_engine，必须用 pymysql 方言（本地开发实际走 sqlite 兜底，
       # 因 C 区 config 只读 os.environ 不读 .env；容器里环境变量注入后 C 区首次真正走 MySQL）
       USER_CHAT_DB_URL: mysql+aiomysql://root:tzb2026@mysql:3306/tzb_user_chat
